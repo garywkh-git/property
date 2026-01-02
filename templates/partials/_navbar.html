@@ -2,7 +2,6 @@
 <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
       <div class="container">
-        {% comment %} fix it later {% endcomment %}
         <a class="navbar-brand" href={% url 'pages:index' %}>
           <img src= {% static 'img/logo.png' %} class="logo" alt="" />
         </a>
@@ -33,15 +32,13 @@
           </ul>
 
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item mr-3">
-                {% comment %} fix it later {% endcomment %}
-                <a class="nav-link" href="register.html">
+            <li {% if 'register' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
+                <a class="nav-link" href="{% url 'accounts:register' %}">
                 <i class="fas fa-user-plus"></i> Register</a
               >
             </li>
-            <li class="nav-item mr-3">
-              {% comment %} fix it later {% endcomment %}
-              <a class="nav-link" href="login.html">
+            <li {% if 'login' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
+                <a class="nav-link" href="{% url 'accounts:login' %}">
                 <i class="fas fa-sign-in-alt"></i>
 
                 Login</a
