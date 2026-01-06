@@ -40,5 +40,4 @@ def edit_contact(request, contact_id):
             return redirect("accounts:dashboard")
     else:
         form = ContactForm(instance=contact)
-
     return render(request, "contacts/edit_contact.html", {"form": form, "contact": contact})
