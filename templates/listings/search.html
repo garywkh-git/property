@@ -21,7 +21,7 @@
                     type="text"
                     name="keywords"
                     class="form-control"
-                    placeholder="Keyword (Clinic, Doctor, City name, Town name, etc)"
+                    placeholder="Keyword (Clinic, Salesperson, City name, Town name, etc)"
                     value="{{ values.keywords }}"
                   />
                 </div>
@@ -69,7 +69,7 @@
                   </select>
                 </div>
               </div>
-              <button class="btn btn-secondary btn-block mt-4" type="submit">
+              <button class="btn btn-warning btn-block mt-4" type="submit">
                 Submit form
               </button>
             </form>
@@ -138,7 +138,7 @@
                 </div>
                 <hr />
                 <div class="row py-2 text-secondary">
-                  <div class="col-12"><i class="fas fa-user"></i> {{listing.doctor.name}}</div>
+                  <div class="col-12"><i class="fas fa-user"></i> {{listing.salesperson.name}}</div>
                 </div>
                 <div class="row text-secondary pb-2">
                   <div class="col-12">
@@ -147,7 +147,7 @@
                 </div>
                 <hr />
                 {% comment %} html {% endcomment %}
-                <a href={% url 'listings:listing' listing.id %} class="btn btn-primary btn-block"
+                <a href={% url 'listings:listing' listing.id %} class="btn btn-warning btn-block"
                   >More Info</a
                 >
               </div>

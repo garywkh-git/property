@@ -13,7 +13,7 @@ def contact(request):
         phone = request.POST['phone']
         message = request.POST['message']
         user_id = request.POST['user_id']
-        doctor_email = request.POST['doctor_email']
+        salesperson_email = request.POST['salesperson_email']
         
 
         if request.user.is_authenticated:
@@ -27,16 +27,15 @@ def contact(request):
                           name=name, email=email, phone=phone, message=message, user_id=user_id)
                               
         contact.save()
-        print("TEST",doctor_email)
+        print("TEST",salesperson_email)
         print("TEST2",listing)
-        print("TEST3", name)
         #========SEND EMAIL ==========
         send_mail(
             'Clinic Inquiry',
             'There has been an inquiry for ' + listing +
             '. Sign into admin panel for more info',
             'garywkh@gmail.com', 
-            [doctor_email], 
+            [salesperson_email], 
             fail_silently=False,
         )
 

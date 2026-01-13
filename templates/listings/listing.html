@@ -163,21 +163,21 @@
         </div>
       </div>
 
-      <!-- doctor photo -->
+      <!-- salesperson photo -->
       <div class="col-md-3">
         <div class="card mb-3">
           <img
             class="card-img-top"
-            src="{{listing.doctor.photo.url}}"
+            src="{{listing.salesperson.photo.url}}"
             alt="Seller of the month"
           />
           <div class="card-body">
             <h5 class="card-title">Medical Practitioner</h5>
-            <h6 class="text-secondary">{{listing.doctor.name}}</h6>
+            <h6 class="text-secondary">{{listing.salesperson.name}}</h6>
           </div>
         </div>
         <button
-          class="btn-primary btn-block btn-lg"
+          class="btn-warning btn-block text-white btn-lg"
           data-toggle="modal"
           data-target="#inquiryModal"
         >
@@ -202,7 +202,7 @@
         <form method="POST" action="{% url 'contacts:contact' %}">
           {% csrf_token %}
           <input type="hidden" name="listing_id" value="{{listing.id}}" />
-          <input type="hidden" name="doctor_email" value="{{listing.doctor.email}}"/>
+          <input type="hidden" name="salesperson_email" value="{{listing.salesperson.email}}"/>
           {% if user.is_autenticated %}
           <input type="hidden" name="user_id" value="{{user.id}}"/>
           {% else %}
@@ -250,7 +250,7 @@
           <input
             type="submit"
             value="Send"
-            class="btn btn-block btn-secondary"
+            class="btn btn-block btn-warning"
           />
         </form>
       </div>

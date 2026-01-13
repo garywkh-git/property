@@ -18,12 +18,12 @@ class ListingAdminForm(forms.ModelForm):
         widgets = {"services": TagWidget()}
     
 class ListingAdmin(admin.ModelAdmin):
-    list_display = 'id', 'title', 'district', 'is_published', 'rooms', 'doctor', 'tag_list', 'display_professions'
+    list_display = 'id', 'title', 'district', 'is_published', 'rooms', 'salesperson', 'tag_list', 'display_professions'
     
     list_display_links = 'id', 'title'
-    list_filter = ("doctor","services")
+    list_filter = ("salesperson","services")
     list_editable = 'is_published','rooms'
-    search_fields = 'title', 'district', 'doctor__name', 'services__name', 'professions__name'
+    search_fields = 'title', 'district', 'salesperson__name', 'services__name', 'professions__name'
     list_per_page = 25
     formfield_overrides = {
         models.IntegerField: {

@@ -8,15 +8,15 @@
         <div class="row text-center">
           <div class="col-md-12">
             <h1 class="display-4">User Dashboard</h1>
-            <p class="lead">Manage your BC Health Care account</p>
+            <p class="lead">Manage your UrbanNest property account</p>
           </div>
         </div>
       </div>
 </section>
 
     <!-- Breadcrumb -->
-<section id="bc" class="mt-3">
-      <div class="container">
+<section id="bc" class="mt-3" >
+      <div class="container" >
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -28,19 +28,19 @@
       </div>
 </section>
 {% include 'partials/_alert.html' %}
-<section id="dashboard" class="py-4">
+<section id="dashboard" class="py-4 bg-light-warning">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <h2>Welcome {{ user.username | title }}</h2>
             {% if contacts %}
-            <p>Here are the clinic listings that you have inquired about</p>
+            <p>Here are the property listings that you have inquired about</p>
 
             <table class="table">
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Clinic</th>
+                  <th scope="col">Property</th>
                   <th></th>
                 </tr>
               </thead>
@@ -65,7 +65,7 @@
                   </button>
                   <a
                     href="{% url 'contacts:edit_contact' contact.id %}"
-                    class ="btn btn-success"
+                    class ="btn btn-warning"
                   >Edit message</a
                   >
                   </td>

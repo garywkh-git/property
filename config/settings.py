@@ -50,7 +50,7 @@ DJANGO_APPS = [
 
 APPLICATION_APPS = [
                     'pages.apps.PagesConfig',
-                    'doctors.apps.DoctorsConfig',
+                    'salespersons.apps.SalespersonsConfig',
                     'listings.apps.ListingsConfig',
                     'accounts.apps.AccountsConfig',
                     'contacts.apps.ContactsConfig',
@@ -105,7 +105,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'clinic',
+        'NAME': 'property',
         'USER': 'postgres',
         'PASSWORD': '1234',
         'HOST': 'localhost'

@@ -4,17 +4,16 @@
 {% load humanize %}
 {% block content %}
 <!--about title-->
-{% block title %} | About{% endblock %} 
+{% block title %} {% endblock %} 
 <!--about main content-->
 
     <section id="showcase-inner" class="py-5 text-white">
       <div class="container">
         <div class="row text-center">
           <div class="col-md-12">
-            <h1 class="display-4">About BC Health Care</h1>
+            <h1 class="display-4">About UrbanNest Property</h1>
             <p class="lead">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
-              pariatur!
+              UrbanNest Property is a modern real estate company specializing in both rental and sales properties. We connect individuals, families, and investors with spaces that fit their lifestyle and goals — from affordable rental apartments to premium homes and commercial properties for sale.
             </p>
           </div>
         </div>
@@ -41,38 +40,36 @@
         <div class="row">
           <div class="col-md-8">
             <h2>
-              We Search For The Your health, your home – we help you find the
-              right clinic.
+            UrbanNest Property envisions a future where finding a home or investment is simple, transparent, and inspiring.  
             </h2>
             <p class="lead">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
-              pariatur!
+            UrbanNest Property is a modern real estate company dedicated to helping clients find the perfect place to live, work, or invest. We specialize in both rental and sales properties, offering a diverse portfolio that ranges from stylish city apartments to spacious family homes and premium commercial spaces.
+            Our mission is to make property search simple, transparent, and rewarding. Whether you’re looking for a flexible rental option or planning to purchase your dream home, UrbanNest Property provides expert guidance and personalized service every step of the way.
+            With a focus on trust, innovation, and customer care, we connect people with properties that truly fit their lifestyle and goals — turning every search into a successful journey.
             </p>
             {%comment%} img {%endcomment%}
-            <img src={% static 'img/about.jpg' %} alt="" />
+            <img src={% static 'img/about.png' %} alt="" />
             <p class="mt-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Perspiciatis esse officia repudiandae ad saepe ex, amet neque quod
-              accusamus rem quia magnam magni dolorum facilis ullam minima
-              perferendis? Exercitationem at quaerat commodi id libero eveniet
-              harum perferendis laborum molestias quia.
+            UrbanNest Property is a modern real estate company dedicated to helping clients find the perfect place to live, work, or invest. We specialize in both rental and sales properties, offering a diverse portfolio that ranges from stylish city apartments to spacious family homes and premium commercial spaces.
+            Our mission is to make property search simple, transparent, and rewarding. Whether you’re looking for a flexible rental option or planning to purchase your dream home, UrbanNest Property provides expert guidance and personalized service every step of the way.
+            With a focus on trust, innovation, and customer care, we connect people with properties that truly fit their lifestyle and goals — turning every search into a successful journey.
             </p>
           </div>
           
           <div class="col-md-4">
-            {% if mvp_doctors %}
-            {% for mvp_doctor in mvp_doctors %}
+            {% if mvp_salespersons %}
+            {% for mvp_salesperson in mvp_salespersons %}
             <div class="card">
               <img
                 class="card-img-top"z
-                src="{{mvp_doctor.photo.url}}"
-                alt="Top Doctor of the month"
+                src="{{mvp_salesperson.photo.url}}"
+                alt="Top salesperson of the month"
               />
               <div class="card-body">
-                <h5 class="card-title">{{ forloop.counter | ordinal }} Doctor</h5>
-                <h6 class="text-secondary">{{ mvp_doctor.name }}</h6>
+                <h5 class="card-title">{{ forloop.counter | ordinal }} Salesperson</h5>
+                <h6 class="text-warning">{{ mvp_salesperson.name }}</h6>
                 <p class="card-text">
-                {{ mvp_doctor.description }}
+                {{ mvp_salesperson.description }}
                 </p>
               </div>
             </div>
@@ -92,33 +89,33 @@
       </h4>
       <hr />
       {%comment%} html {%endcomment%}
-      <a href="{% url 'listings:index' %}" class="btn btn-secondary text-white btn-lg"
-       >View Our Featured Listings</a
+      <a href="{% url 'listings:index' %}" class="btn btn-warning text-white btn-lg"
+       >View Our Properties Listings</a
       >
     </section>
 
     <!-- Team -->
-    {% if doctors %}
+    {% if salespersons %}
     <section id="team" class="py-5">
       <div class="container">
         <h2 class="text-center pb-4">Our Team</h2>
         <div class="row text-center">
-          {% for doctor in doctors %}
+          {% for salesperson in salespersons %}
           <div class="col-md-4">
             <img
               {%comment%} img {%endcomment%}
-              src="{{ doctor.photo.url }}"
+              src="{{ salesperson.photo.url }}"
               alt=""
               class="rounded-circle mb-3 img-fluid"
               style="object-fit: cover; width: 300px; height: 300px"
             />
-            <h4>{{ doctor.name }}</h4>
-            <p class="text-success">
-              <i class="fas fa-award text-success"></i> {{ doctor.phone }}
+            <h4>{{ salesperson.name }}</h4>
+            <p class="text-warning">
+              <i class="fas fa-award text-warning"></i> {{ salesperson.phone }}
             </p>
             <hr />
-            <p><i class="fas fa-phone"></i> {{ doctor.phone }}</p>
-            <p><i class="fas fa-envelope-open"></i> {{ doctor.email }}</p>
+            <p><i class="fas fa-phone "></i> {{ salesperson.phone }}</p>
+            <p><i class="fas fa-envelope-open"></i> {{ salesperson.email }}</p>
           </div>
 
           {% endfor %}

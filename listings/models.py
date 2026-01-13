@@ -1,5 +1,5 @@
 from django.db import models
-from doctors.models import Doctor
+from salespersons.models import Salesperson
 from .choices import district_choices, room_choices, rooms_choices
 from taggit.managers import TaggableManager
 # Create your models here.
@@ -9,7 +9,7 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 class Listing(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
+    salesperson = models.ForeignKey(Salesperson, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=200)
     address = models.CharField(max_length=200)
     district = models.CharField(max_length=50, choices=district_choices.items())

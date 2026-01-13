@@ -10,10 +10,9 @@
       <div class="container">
         <div class="row text-center">
           <div class="col-md-12">
-            <h1 class="display-4">Browse Our Clinic</h1>
+            <h1 class="display-4">Browse Our Properties</h1>
             <p class="lead">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
-              pariatur!
+              Explore our property portfolio with confidence. Use filters to refine your search by location, price, size, and amenities, and find the property that perfectly matches your needs.
             </p>
           </div>
         </div>
@@ -56,11 +55,11 @@
                 <div class="listing-heading text-center">
                   <h4 class="text-primary">{{listing.title}}</h4>
                   <p>
-                    <i class="fas fa-map-marker text-secondary"></i>{{listing.district}}
+                    <i class="fas fa-map-marker text-warning"></i>{{listing.district}}
                   </p>
                 </div>
                 <hr />
-                <div class="row py-2 text-secondary">
+                <div class="row py-2 text-warning">
                   <div class="col-6">
                     <i class="fas fa-th-large"></i> Services {{listing.service | apnumber | capfirst}}
                   </div>
@@ -68,7 +67,7 @@
                     <i class="fas fa-dumbbell"></i> Treatment 
                   </div>
                 </div>
-                <div class="row py-2 text-secondary">
+                <div class="row py-2 text-warning">
                   <div class="col-6">
                     <i class="fas fa-bed"></i>  Rooms {{listing.rooms }}
                   </div>
@@ -77,17 +76,17 @@
                   </div>
                 </div>
                 <hr />
-                <div class="row py-2 text-secondary">
+                <div class="row py-2 text-warning">
                   <div class="col-12"><i class="fas fa-user"></i> {{listing.doctor.name}}</div>
                 </div>
-                <div class="row text-secondary pb-2">
+                <div class="row text-warning pb-2">
                   <div class="col-12">
                     <i class="fas fa-clock"></i> {{listing.list_date | timesince}}
                   </div>
                 </div>
                 <hr />
                 {% comment %} html {% endcomment %}
-                <a href={% url 'listings:listing' listing.id %} class="btn btn-primary btn-block"
+                <a href={% url 'listings:listing' listing.id %} class="btn btn-warning btn-block"
                   >More Info</a
                 >
               </div>

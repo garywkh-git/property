@@ -5,7 +5,42 @@
         <a class="navbar-brand" href={% url 'pages:index' %}>
           <img src= {% static 'img/logo.png' %} class="logo" alt="" />
         </a>
-        <button
+        
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+          
+          <li {% if '/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
+            <a class="nav-link" href={% url 'pages:index' %}>Home</a>
+          </li>
+      
+            <li {% if '/listings/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}> 
+            <a class="nav-link" href={% url 'listings:index' %}>
+              Our Properties
+            </a>
+            </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Others
+            </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </li>
+            <li {% if '/about' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
+                
+                <a class="nav-link mr-3" href={% url 'pages:about' %}>About</a>
+            </li>
+
+    </ul>
+        
+        {% comment %} <button
           class="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -26,10 +61,10 @@
             </li>
             <li {% if '/listings/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}> 
                 <a class="nav-link" href={% url 'listings:index' %}>
-                  Inpatient medical services
+                  Property services
                 </a>
             </li>
-          </ul>
+          </ul> {% endcomment %}
 
           <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
@@ -54,7 +89,7 @@
                 <i class="fas fa-user-plus"></i> Register</a
               >
             </li>
-            <li {% if 'login' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-3" {% endif %}>
+            <li {% if 'login' in request.path %} class="nav-item mr-3 active" {% else %} class="nav-item mr-5" {% endif %}>
                 <a class="nav-link" href="{% url 'accounts:login' %}">
                 <i class="fas fa-sign-in-alt"></i>
 

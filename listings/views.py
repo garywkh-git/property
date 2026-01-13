@@ -22,7 +22,7 @@ def search(request):
     if 'keywords' in request.GET:
         keywords = request.GET['keywords']
         if keywords:
-            queryset_list = queryset_list.filter(Q(description__icontains=keywords)|Q(title__icontains=keywords)|Q(doctor__name__icontains=keywords))
+            queryset_list = queryset_list.filter(Q(description__icontains=keywords)|Q(title__icontains=keywords)|Q(salesperson__name__icontains=keywords))
     if 'district' in request.GET:
         district = request.GET['district']
         if district:
