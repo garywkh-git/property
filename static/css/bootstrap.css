@@ -1,4 +1,4 @@
-/*!
+/*
  * Bootstrap v4.1.3 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors
  * Copyright 2011-2018 Twitter, Inc.
@@ -10,7 +10,7 @@
   --purple: #6f42c1;
   --pink: #e83e8c;
   --red: #e94646;
-  --orange: #fd7e14;
+  --orange: #ff7300;
   --yellow: #ffc107;
   --green: #30caa0;
   --teal: #20c997;
@@ -1639,12 +1639,12 @@ fieldset:disabled a.btn {
     border-color: #10284e; }
   .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
   .show > .btn-primary.dropdown-toggle {
-    color: #fff;
-    background-color: #071224;
+    color: #f0a924;
+    background-color: #f5c66e;
     border-color: #050d19; }
     .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
     .show > .btn-primary.dropdown-toggle:focus {
-      box-shadow: 0 0 0 0.2rem rgba(16, 40, 78, 0.5); }
+      box-shadow: 0 0 0 0.2rem rgba(230, 198, 139, 0.5); }
 
 .btn-secondary {
   color: #212529;
@@ -4313,7 +4313,7 @@ button.bg-info:focus {
   background-color: #ffc107 !important; }
 
 .bg-light-warning {
-  background-color: #ffeeba !important; }
+  background-color: #fff3cc !important; }
 
 a.bg-warning:hover, a.bg-warning:focus,
 button.bg-warning:hover,
@@ -6313,4 +6313,58 @@ a.text-dark:hover, a.text-dark:focus {
       border-color: #dee2e6; }
   .table .thead-dark th {
     color: inherit;
-    border-color: #dee2e6; } }
+    border-color: #dee2e6; } 
+  .btn-red-border {
+  border: 2px solid red;
+  background-color: transparent;
+  color: black; /* 或你要的字色 */
+}
+
+.map-container {
+  position: relative;
+  width: 80%;
+  height: 300px; /* adjust to desired height */
+}
+
+.map-container iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 80%;
+  height: 100%;
+  border: 0;
+}
+
+.listing-preview {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.listing-preview:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.listing-preview img {
+  height: 220px;          /* consistent image height */
+  object-fit: cover;      /* crop nicely */
+}
+
+.listing-heading h4 {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.listing-heading p {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.card-custom {
+  background-color: #ffcc80 !important; /* soft orange */
+  color: #333;              /* text color for readability */
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+  }

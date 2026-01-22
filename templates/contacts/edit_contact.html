@@ -4,6 +4,34 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
+      <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-body p-4">
+          <h1 class="text-center mb-4 text-primary">✏️ Edit Message</h1>
+          
+          <form action="{% url 'contacts:edit_contact' contact.id %}" method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              {{ form.message | add_label_class:"form-label fw-bold text-secondary" }}
+              {% if form.message.errors %}
+                <div class="text-danger small mb-2">{{ form.message.errors }}</div>
+              {% endif %}
+              {{ form.message | add_class:"form-control border-primary shadow-sm" }}
+            </div>
+            
+            <button class="btn btn-warning w-100 fw-bold text-black shadow-sm" type="submit">
+              🚀 Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} <div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
       <div class="card p-6 shadow-sm">
         <h1 class="text-center mb-4">Edit Message</h1>
         <form action="{% url 'contacts:edit_contact' contact.id %}" method="POST">
@@ -20,5 +48,5 @@
       </div>
     </div>
   </div>
-</div>
+</div> {% endcomment %}
 {% endblock content %}

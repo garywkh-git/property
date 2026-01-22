@@ -1,0 +1,33 @@
+   {% extends 'base.html' %}
+   {% load static %}
+   {% load humanize %}
+   <!--block title-->
+   {% block title %} | {{job.title | title}} {% endblock %}
+{% block content %}
+   <section id="showcase-inner" class="py-5 text-white">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-md-12">
+            <h3 class="display-4"><strong>Browse Our Properties</strong></h3>
+            {% comment %} <p class="lead">
+              Explore our property portfolio with confidence. Use filters to refine your search by location, price, size, and amenities, and find the property that perfectly matches your needs.
+            </p> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </section>
+<div class="container py-5">
+ <p>
+  <title>{{ job.title }}</title>
+
+  <h4 class="bg-light" ><strong>{{ job.title }}</strong></h4>
+  <p><strong>Location:</strong> {{ job.location }}</p>
+  <p><strong>Description:</strong> {{ job.description }}</p>
+  <p><strong>Requirements:</strong> {{ job.requirements }}</p>
+  <p><em>Posted on {{ job.posted_date }}</em></p>
+  <a href="{% url 'careers:list' %}" class="btn btn-warning">Back to Careers</a>
+  
+ </div>
+
+
+{% endblock %}

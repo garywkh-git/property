@@ -12,9 +12,9 @@
         <div class="row text-center">
           <div class="col-md-12">
             <h1 class="display-4">About UrbanNest Property</h1>
-            <p class="lead">
+            {% comment %} <p class="lead">
               UrbanNest Property is a modern real estate company specializing in both rental and sales properties. We connect individuals, families, and investors with spaces that fit their lifestyle and goals — from affordable rental apartments to premium homes and commercial properties for sale.
-            </p>
+            </p> {% endcomment %}
           </div>
         </div>
       </div>
@@ -47,13 +47,9 @@
             Our mission is to make property search simple, transparent, and rewarding. Whether you’re looking for a flexible rental option or planning to purchase your dream home, UrbanNest Property provides expert guidance and personalized service every step of the way.
             With a focus on trust, innovation, and customer care, we connect people with properties that truly fit their lifestyle and goals — turning every search into a successful journey.
             </p>
-            {%comment%} img {%endcomment%}
+          
             <img src={% static 'img/about.png' %} alt="" />
-            <p class="mt-4">
-            UrbanNest Property is a modern real estate company dedicated to helping clients find the perfect place to live, work, or invest. We specialize in both rental and sales properties, offering a diverse portfolio that ranges from stylish city apartments to spacious family homes and premium commercial spaces.
-            Our mission is to make property search simple, transparent, and rewarding. Whether you’re looking for a flexible rental option or planning to purchase your dream home, UrbanNest Property provides expert guidance and personalized service every step of the way.
-            With a focus on trust, innovation, and customer care, we connect people with properties that truly fit their lifestyle and goals — turning every search into a successful journey.
-            </p>
+
           </div>
           
           <div class="col-md-4">
@@ -81,24 +77,21 @@
     </section>
 
     <!-- Work -->
-    <section id="work" class="bg-dark text-white text-center">
-      <h2 class="display-4">We Work For You</h2>
-      <h4>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem velit
-        aperiam, unde aliquid at similique!
-      </h4>
-      <hr />
-      {%comment%} html {%endcomment%}
-      <a href="{% url 'listings:index' %}" class="btn btn-warning text-white btn-lg"
+    <section id="work" class="bg-warning text-black text-center py-5">
+      <h5 class="display-4">We Work For You</h5>
+
+      <a href="{% url 'listings:index' %}" class="btn btn-success text-white btn-lg"
        >View Our Properties Listings</a
       >
     </section>
+
+
 
     <!-- Team -->
     {% if salespersons %}
     <section id="team" class="py-5">
       <div class="container">
-        <h2 class="text-center pb-4">Our Team</h2>
+        <h2 class="text-center pb-4">Your Partners</h2>
         <div class="row text-center">
           {% for salesperson in salespersons %}
           <div class="col-md-4">
@@ -107,12 +100,12 @@
               src="{{ salesperson.photo.url }}"
               alt=""
               class="rounded-circle mb-3 img-fluid"
-              style="object-fit: cover; width: 300px; height: 300px"
+              style="object-fit: cover; width: 250px; height: 300px"
             />
             <h4>{{ salesperson.name }}</h4>
-            <p class="text-warning">
+            {% comment %} <p class="text-warning">
               <i class="fas fa-award text-warning"></i> {{ salesperson.phone }}
-            </p>
+            </p> {% endcomment %}
             <hr />
             <p><i class="fas fa-phone "></i> {{ salesperson.phone }}</p>
             <p><i class="fas fa-envelope-open"></i> {{ salesperson.email }}</p>

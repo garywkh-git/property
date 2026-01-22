@@ -54,6 +54,8 @@ APPLICATION_APPS = [
                     'listings.apps.ListingsConfig',
                     'accounts.apps.AccountsConfig',
                     'contacts.apps.ContactsConfig',
+                    'mortgages.apps.MortgagesConfig',
+                    'careers.apps.CareersConfig',
                     ]
 
 

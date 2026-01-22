@@ -31,7 +31,7 @@ def contact(request):
         print("TEST2",listing)
         #========SEND EMAIL ==========
         send_mail(
-            'Clinic Inquiry',
+            'Property Inquiry',
             'There has been an inquiry for ' + listing +
             '. Sign into admin panel for more info',
             'garywkh@gmail.com', 
@@ -41,7 +41,7 @@ def contact(request):
 
         #==============================
 
-        messages.success(request, 'Your request has been submitted, a clinic representative will get back to you soon')
+        messages.success(request, 'Your request has been submitted, a sales representative will get back to you soon')
         return redirect('listings:listing', listing_id=listing_id)
 
 def delete_contact(request, contact_id):

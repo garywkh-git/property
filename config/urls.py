@@ -25,8 +25,12 @@ urlpatterns = [
     path('listings/', include ('listings.urls',namespace='listings')),
     path('contacts/', include ('contacts.urls',namespace='contacts')),
     path('accounts/', include ('accounts.urls',namespace='accounts')),
-    #path('doctors/', include ('doctors.urls',namespace='doctors')),
+    path('mortgages/', include('mortgages.urls',namespace='mortgages')),
+    path('careers/', include('careers.urls')),
     path('admin/', admin.site.urls),
+    
+    
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + debug_toolbar_urls()
 
 admin.site.site_header = "Property Adminstration"

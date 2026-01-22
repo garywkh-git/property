@@ -23,9 +23,7 @@ def login(request):
 def logout(request):
     if request.method=='POST':
         auth.logout(request)
-        #messages.success(request, 'You are now logged out')
         return redirect('pages:index')
-    #return render(request, 'accounts/logout.html')
 
 def register(request):
     if request.method =='POST':
@@ -42,7 +40,7 @@ def register(request):
             else:
                 if User.objects.filter(email=email).exists():
                     messages.error(request, 'Email already exist')
-                    return redirect("accounts.register")
+                    return redirect("accounts:register")
                 else:    
                     user=User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
                     user.save()

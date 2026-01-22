@@ -28,7 +28,7 @@
       </div>
 </section>
 {% include 'partials/_alert.html' %}
-<section id="dashboard" class="py-4 bg-light-warning">
+<section id="dashboard" class="py-4">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -51,22 +51,22 @@
                   <td>{{ contact.listing_id }}</td>
                   <td>{{ contact.listing | title }}</td>
                   <td>
-                    <a class="btn btn-light" href="{% url 'listings:listing' contact.listing_id %}">View Listing</a>
+                    <a class="btn btn-outline-success" href="{% url 'listings:listing' contact.listing_id %}"><strong>View Listing</strong></a>
                     
                     <button 
-                    class="btn btn-danger"
+                    class="btn btn-outline-danger"
                     
                     data-url="{% url 'contacts:delete_contact' contact.id %}"
                     data-toggle="modal" 
                     data-target="#deleteConfirmModal"
                     data-id="{{contact.id}}"
                     > 
-                    Delete Listing
+                    <strong>Delete Listing</strong>
                   </button>
                   <a
                     href="{% url 'contacts:edit_contact' contact.id %}"
-                    class ="btn btn-warning"
-                  >Edit message</a
+                    class ="btn btn-outline-warning "
+                  ><strong>Edit message</strong></a
                   >
                   </td>
                 </tr>
@@ -92,8 +92,8 @@
       </div>
       <div class="modal-body">
         <p> Are you sure you want to delete this inquiry?</p>
-        <a href="" class="btn btn-danger" id="confirmDeleteBtn">Yes</a>
-        <button class="btn btn-info" data-dismiss="modal">Cancel</button>
+        <a href="" class="btn btn-outline-danger" id="confirmDeleteBtn">Yes</a>
+        <button class="btn btn-outlineinfo" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>

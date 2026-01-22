@@ -10,10 +10,10 @@
       <div class="container">
         <div class="row text-center">
           <div class="col-md-12">
-            <h1 class="display-4">Browse Our Properties</h1>
-            <p class="lead">
+            <h4 class="display-4"><strong>Browse Our Properties</strong></h4>
+            {% comment %} <p class="lead">
               Explore our property portfolio with confidence. Use filters to refine your search by location, price, size, and amenities, and find the property that perfectly matches your needs.
-            </p>
+            </p> {% endcomment %}
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
           {% if listings %}
           {% for listing in listings %}
           <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card listing-preview">
+            <div class="card listing-preview bg-light-warning">
               {% comment %} img {% endcomment %}
               <img
                 class="card-img-top"
@@ -55,31 +55,31 @@
                 <div class="listing-heading text-center">
                   <h4 class="text-primary">{{listing.title}}</h4>
                   <p>
-                    <i class="fas fa-map-marker text-warning"></i>{{listing.district}}
+                    <i class="fas fa-map-marker"></i> District : {{listing.district}}
                   </p>
                 </div>
                 <hr />
-                <div class="row py-2 text-warning">
+                <div class="row py-2">
                   <div class="col-6">
-                    <i class="fas fa-th-large"></i> Services {{listing.service | apnumber | capfirst}}
+                    <i class="fas fa-th-large"></i> {{listing.price| intword}}
                   </div>
                   <div class="col-6">
-                    <i class="fas fa-dumbbell"></i> Treatment 
+                    <i class="fas fa-history"></i> Age: {{listing.age }} years
                   </div>
                 </div>
-                <div class="row py-2 text-warning">
+                <div class="row py-2">
                   <div class="col-6">
-                    <i class="fas fa-bed"></i>  Rooms {{listing.rooms }}
-                  </div>
+                    <i class="fas fa-bed"></i> Rooms:s {{listing.rooms }}
+                  </div> 
                   <div class="col-6">
-                    <i class="fas fa-bath"></i> Bathrooms
+                    <i class="fas fa-expand-arrows-alt"></i> Area: {{listing.area|floatformat:0|intcomma }} sqft
                   </div>
                 </div>
                 <hr />
-                <div class="row py-2 text-warning">
-                  <div class="col-12"><i class="fas fa-user"></i> {{listing.doctor.name}}</div>
+                <div class="row py-2">
+                  <div class="col-12"><i class="fas fa-user"></i> Salesperson: {{listing.salesperson.name}}</div>
                 </div>
-                <div class="row text-warning pb-2">
+                <div class="row pb-2">
                   <div class="col-12">
                     <i class="fas fa-clock"></i> {{listing.list_date | timesince}}
                   </div>

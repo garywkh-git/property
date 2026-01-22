@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}｜Careers{% endblock %}
+
+{% block content %}
+   <section id="showcase-inner" class="py-5 text-white">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-md-12">
+            <h4 class="display-4"><strong>Join Our Team — Build Your Future With Us</strong></h4>
+            {% comment %} <p class="lead">
+              Explore our property portfolio with confidence. Use filters to refine your search by location, price, size, and amenities, and find the property that perfectly matches your needs.
+            </p> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </section>
+        <!-- Breadcrumb -->
+    <section id="bc" class="mt-3">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'pages:index' %}"> 
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item active">Career Listings</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+<div class="container py-5">
+  <h2>Join Our Team</h2>
+
+  <!-- Job Listings -->
+  <ul class="list-group mt-4">
+    {% for job in listings %}
+      <li class="list-group-item">
+        <h5>{{ job.title }}</h5>
+        <p>{{ job.location }}</p>
+        <a href="{% url 'careers:detail' job.id %}" class="btn btn-warning btn-sm">
+          View Details
+        </a>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No openings available.</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Pagination -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      {% if listings.has_other_pages %}
+        <ul class="pagination">
+          {% if listings.has_previous %}
+            <li class="page-item">
+              
+            </li>
+          {% else %}
+            <li class="page-item disabled"><a class="page-link">&laquo;</a></li>
+          {% endif %}
+
+          {% for i in listings.paginator.page_range %}
+            {% if listings.number == i %}
+              <li class="page-item active"><a class="page-link bg-light text-dark">{{ i }}</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link bg-light text-dark" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if listings.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ listings.next_page_number }}">&raquo;</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><a class="page-link" >&raquo;</a></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+

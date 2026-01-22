@@ -1,6 +1,6 @@
 from django.db import models
 from salespersons.models import Salesperson
-from .choices import district_choices, room_choices, rooms_choices
+from .choices import district_choices, listing_type_choices, rooms_choices, status_choices
 from taggit.managers import TaggableManager
 # Create your models here.
 class Subject(models.Model):
@@ -14,19 +14,21 @@ class Listing(models.Model):
     address = models.CharField(max_length=200)
     district = models.CharField(max_length=50, choices=district_choices.items())
     description = models.TextField(blank=True)
-    services = TaggableManager(verbose_name="Services")
-    service = models.IntegerField()
-    room_type = models.CharField(max_length=200, choices=room_choices.items(), default='')
-    rooms = models.CharField(max_length=2, choices=rooms_choices, default='')
-    professions = models.ManyToManyField(Subject,blank=True)
+    listing_type = models.CharField(max_length=200, choices=listing_type_choices.items(), default='')
+    rooms = models.IntegerField(default=0)
+    area = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    age = models.IntegerField(default=0)  # age in years
+    #built_date = models.DateField(verbose_name="Property Built Date",blank=True, null=True)
+    price = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    status = models.CharField(max_length=20, choices=status_choices, default='')
     photo_main = models.ImageField(upload_to='photos/%Y/%m/%d/')
     photo_1 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_2 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_3 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     photo_4 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
-    #photo_5 = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True)
     is_published = models.BooleanField(default=True)
     list_date = models.DateTimeField(auto_now_add=True)
+    
     class Meta:
         ordering = ['-list_date']
         indexes = [models.Index(fields=['list_date'])]
