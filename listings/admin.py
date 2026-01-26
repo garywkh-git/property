@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django import forms
+from import_export.admin import ImportExportModelAdmin
 from .models import Listing, Subject
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from taggit.forms import TagWidget
@@ -30,6 +31,15 @@ class ListingAdmin(admin.ModelAdmin):
             "widget": forms.NumberInput(attrs = {"size": "5"})
         }
     }
+
+class ListingAdmin(ImportExportModelAdmin):
+    list_display = 'id', 'title','address', 'district', 'description', 'is_published', 'rooms', 'salesperson', 'area', 'price', 'status', 'list_date'
+
+
+
+
+
+
     # show_facets = admin.ShowFacets.ALWAYS
     # def get_queryset(self, request):
     #     return super().get_queryset(request).prefetch_related("services", "professions")

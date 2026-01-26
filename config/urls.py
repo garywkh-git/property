@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/', include ('accounts.urls',namespace='accounts')),
     path('mortgages/', include('mortgages.urls',namespace='mortgages')),
     path('careers/', include('careers.urls')),
+    path('news/', include('news.urls')),  # Add this line
     path('admin/', admin.site.urls),
     
     

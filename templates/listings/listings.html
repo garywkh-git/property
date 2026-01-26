@@ -1,152 +1,765 @@
-
 {% extends "base.html" %} 
 {% load static %} 
 {% load humanize %}
-<!--about title-->
-{% block title %} | Browse Listings {% endblock %} 
+
+{% block title %} | Browse Our Properties {% endblock %} 
+
 {% block content %}
 
-    <section id="showcase-inner" class="py-5 text-white">
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-md-12">
-            <h4 class="display-4"><strong>Browse Our Properties</strong></h4>
-            {% comment %} <p class="lead">
-              Explore our property portfolio with confidence. Use filters to refine your search by location, price, size, and amenities, and find the property that perfectly matches your needs.
-            </p> {% endcomment %}
-          </div>
-        </div>
-      </div>
-    </section>
+<style>
+    :root {
+        --primary-orange: #FF6B35;
+        --orange-light: #FFA07A;
+        --orange-lighter: #FFF3E0;
+        --orange-dark: #E55A2B;
+        --orange-gradient: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+        --orange-gradient-light: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 142, 83, 0.1) 100%);
+        --shadow-orange: 0 10px 30px rgba(255, 107, 53, 0.15);
+        --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.08);
+    }
 
-    <!-- Breadcrumb -->
-    <section id="bc" class="mt-3">
-      <div class="container">
+    /* Hero Section */
+    .listings-hero {
+        {% comment %} background: var(--orange-gradient),  {% endcomment %}
+        {% comment %} background: var(--orange-lighter), {% endcomment %}
+        {% comment %} url('{% static "img/listings-hero-bg.jpg" %}')  {% endcomment %}
+        {% comment %} center/cover no-repeat; {% endcomment %}
+        {% comment %} center/cover no-repeat; {% endcomment %}
+        color: var(--orange-dark);
+        padding: 40px 0;
+        position: relative;
+        text-align: center;
+    }
+
+    .listings-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 40px;
+        background: rgba(247, 211, 181, 0.4);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-title {
+        font-size: 3.2rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        animation: fadeInDown 1s ease;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto 30px;
+        line-height: 1.6;
+        opacity: 0.9;
+        animation: fadeInUp 1s ease 0.3s both;
+    }
+
+    /* Breadcrumb */
+    .custom-breadcrumb {
+        background: white;
+        border-radius: 10px;
+        padding: 20px 30px;
+        margin: -40px auto 40px;
+        max-width: 1200px;
+        box-shadow: var(--shadow-orange);
+        border: 1px solid rgba(255, 107, 53, 0.1);
+    }
+
+    .custom-breadcrumb .breadcrumb {
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .custom-breadcrumb .breadcrumb-item a {
+        color: var(--primary-orange);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .custom-breadcrumb .breadcrumb-item a:hover {
+        color: var(--orange-dark);
+        text-decoration: underline;
+    }
+
+    .custom-breadcrumb .breadcrumb-item.active {
+        color: var(--orange-dark);
+        font-weight: 700;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: var(--orange-light);
+        content: "›";
+        font-size: 1.2rem;
+    }
+
+    /* Property Cards */
+    .property-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        box-shadow: var(--shadow-card);
+        border: 1px solid rgba(255, 107, 53, 0.1);
+        height: 100%;
+        position: relative;
+        animation: fadeInUp 0.6s ease forwards;
+        opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .property-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-orange);
+    }
+
+    .property-image {
+        height: 250px;
+        width: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+        position: relative;
+    }
+
+    .property-card:hover .property-image {
+        transform: scale(1.05);
+    }
+
+    .property-overlay {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        right: 15px;
+        display: flex;
+        justify-content: space-between;
+        z-index: 2;
+    }
+
+    .property-price {
+        background: var(--orange-gradient);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .property-status {
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--primary-orange);
+        padding: 6px 15px;
+        border-radius: 15px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .property-content {
+        padding: 25px;
+    }
+
+    .property-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+
+    .property-title a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .property-title a:hover {
+        color: var(--primary-orange);
+    }
+
+    .property-location {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .property-location i {
+        color: var(--primary-orange);
+    }
+
+    .property-features {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+    }
+
+    .feature-item {
+        text-align: center;
+        flex: 1;
+    }
+
+    .feature-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--orange-lighter);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px;
+        transition: all 0.3s ease;
+    }
+
+    .property-card:hover .feature-icon {
+        background: var(--orange-gradient);
+        transform: scale(1.1);
+    }
+
+    .feature-icon i {
+        color: var(--primary-orange);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .property-card:hover .feature-icon i {
+        color: white;
+    }
+
+    .feature-label {
+        font-size: 0.8rem;
+        color: #666;
+        margin-bottom: 4px;
+    }
+
+    .feature-value {
+        font-weight: 700;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .property-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+    }
+
+    .agent-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .agent-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--orange-lighter);
+    }
+
+    .agent-name {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .property-date {
+        font-size: 0.85rem;
+        color: #888;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .property-date i {
+        color: var(--primary-orange);
+    }
+
+    .btn-view {
+        background: var(--orange-gradient);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        text-align: center;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .btn-view:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    /* No Listings State */
+    .no-listings {
+        text-align: center;
+        padding: 80px 20px;
+        background: linear-gradient(135deg, #FFF9F5 0%, #FFF0E6 100%);
+        border-radius: 20px;
+        margin: 40px 0;
+    }
+
+    .no-listings-icon {
+        width: 100px;
+        height: 100px;
+        background: var(--orange-lighter);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+    }
+
+    .no-listings-icon i {
+        font-size: 3rem;
+        color: var(--primary-orange);
+    }
+
+    .no-listings-title {
+        color: #333;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .no-listings-text {
+        color: #666;
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto 30px;
+        line-height: 1.6;
+    }
+
+    .btn-explore {
+        background: var(--orange-gradient);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-explore:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Pagination */
+    .custom-pagination {
+        margin-top: 60px;
+    }
+
+    .pagination {
+        justify-content: center;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow-card);
+    }
+
+    .page-item {
+        margin: 0 2px;
+    }
+
+    .page-item:first-child .page-link {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .page-item:last-child .page-link {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .page-link {
+        border: none;
+        background: white;
+        color: var(--primary-orange);
+        padding: 12px 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .page-link:hover {
+        background: var(--orange-lighter);
+        color: var(--orange-dark);
+    }
+
+    .page-item.active .page-link {
+        background: var(--orange-gradient);
+        color: white;
+        border: none;
+    }
+
+    .page-item.disabled .page-link {
+        background: #f8f9fa;
+        color: #ccc;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 40px;
+        box-shadow: var(--shadow-card);
+        border: 1px solid rgba(255, 107, 53, 0.1);
+    }
+
+    .filter-title {
+        color: var(--primary-orange);
+        font-weight: 700;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .filter-title i {
+        font-size: 1.2rem;
+    }
+
+    .filter-stats {
+        background: var(--orange-lighter);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .stats-text {
+        color: var(--orange-dark);
+        font-weight: 600;
+        margin: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+        
+        .custom-breadcrumb {
+            margin: -20px 20px 40px;
+            padding: 15px;
+        }
+        
+        .property-features {
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .feature-item {
+            flex: 0 0 calc(50% - 10px);
+        }
+        
+        .page-link {
+            padding: 10px 15px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .property-card {
+            margin-bottom: 30px;
+        }
+        
+        .feature-item {
+            flex: 0 0 100%;
+        }
+        
+        .pagination {
+            flex-wrap: wrap;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="listings-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Browse Our Properties</h1>
+            <p class="hero-subtitle">
+                Discover your perfect space from our curated collection of premium properties. 
+                Filter, explore, and find your dream home or investment opportunity.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Breadcrumb -->
+ <br>
+ <br>
+<div class="container">
+    <div class="custom-breadcrumb">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="{% url 'pages:index' %}"> 
-                <i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="breadcrumb-item active">Browse Listings</li>
-          </ol>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'pages:index' %}">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item active">Properties</li>
+            </ol>
         </nav>
-      </div>
-    </section>
-    
-    <!-- Listings -->
-    <section id="listings" class="py-4">
-      <div class="container">
-        <div class="row">
-          <!-- Listing 1 -->
-          {% if listings %}
-          {% for listing in listings %}
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card listing-preview bg-light-warning">
-              {% comment %} img {% endcomment %}
-              <img
-                class="card-img-top"
-                src="{{ listing.photo_main.url }}"
-                alt=""
-              />
-              <div class="card-img-overlay">
-              </div>
-              <div class="card-body">
-                <div class="listing-heading text-center">
-                  <h4 class="text-primary">{{listing.title}}</h4>
-                  <p>
-                    <i class="fas fa-map-marker"></i> District : {{listing.district}}
-                  </p>
+    </div>
+</div>
+
+<!-- Listings Section -->
+<section class="py-5">
+    <div class="container">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h3 class="filter-title">
+                        <i class="fas fa-filter"></i> Property Portfolio
+                    </h3>
                 </div>
-                <hr />
-                <div class="row py-2">
-                  <div class="col-6">
-                    <i class="fas fa-th-large"></i> {{listing.price| intword}}
-                  </div>
-                  <div class="col-6">
-                    <i class="fas fa-history"></i> Age: {{listing.age }} years
-                  </div>
+                <div class="col-md-6">
+                    {% if listings %}
+                    <div class="filter-stats">
+                        <p class="stats-text">
+                            <i class="fas fa-chart-line"></i> 
+                            Showing {{ listings|length }} of {{ listings.paginator.count }} properties
+                        </p>
+                    </div>
+                    {% endif %}
                 </div>
-                <div class="row py-2">
-                  <div class="col-6">
-                    <i class="fas fa-bed"></i> Rooms:s {{listing.rooms }}
-                  </div> 
-                  <div class="col-6">
-                    <i class="fas fa-expand-arrows-alt"></i> Area: {{listing.area|floatformat:0|intcomma }} sqft
-                  </div>
-                </div>
-                <hr />
-                <div class="row py-2">
-                  <div class="col-12"><i class="fas fa-user"></i> Salesperson: {{listing.salesperson.name}}</div>
-                </div>
-                <div class="row pb-2">
-                  <div class="col-12">
-                    <i class="fas fa-clock"></i> {{listing.list_date | timesince}}
-                  </div>
-                </div>
-                <hr />
-                {% comment %} html {% endcomment %}
-                <a href={% url 'listings:listing' listing.id %} class="btn btn-warning btn-block"
-                  >More Info</a
-                >
-              </div>
             </div>
-          </div>
-          {% endfor %}
-          {% else %}
-          <div class ="col-md-12">
-            <p> No listings available at the moment. please check back later.</p>
-          </div>
-          {% endif %}
         </div>
 
+        <!-- Property Grid -->
         <div class="row">
-          <div class="col-md-12">
-            {% if listings.has_other_pages %}
-            <ul class="pagination">
-              {% if listings.has_previous %}
-              <li class="page-item">
-                <a 
-                  class="page-link" href="?page={{ listings.previous_page_number }}"
-                  >&laquo;</a>
-              </li> 
-              {% else %}
-              
-              <li class="page-item disabled">
-                <a class="page-link" href="#">&laquo;</a>
-              </li>
-              {% endif %}
-              {% for i in listings.paginator.page_range %}
-              {% if listings.number == i %}
-              <li class="page-item active">
-                <a class="page-link"> {{ i }}</a>
-              </li>
-              {% else %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-              </li>
-              {% endif %}
-              {% endfor%}
-              {% if listings.has_next %}
-              <li class="page-item">
-                <a 
-                  class="page-link" href="?page={{ listings.next_page_number }}"
-                  >&raquo;</a>
-              </li> 
-              {% else %}
-              
-              <li class="page-item disabled">
-                <a class="page-link" href="#">&raquo;</a>
-              </li>
-              {% endif %}
-            </ul>
+            {% if listings %}
+                {% for listing in listings %}
+                <div class="col-lg-4 col-md-6 mb-4" style="animation-delay: {{ forloop.counter0|add:"0.1" }}s">
+                    <div class="property-card">
+                        <!-- Property Image -->
+                        <div class="position-relative overflow-hidden">
+                            <img src="{{ listing.photo_main.url }}" alt="{{ listing.title }}" class="property-image">
+                            <div class="property-overlay">
+
+                                {% if listing.status %}
+                                <div class="property-status">{{ listing.get_status_display }}</div>
+                                {% endif %}
+                                <div class="property-price">HKD {{ listing.price |floatformat:0 |intcomma}}</div>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Property Content -->
+                        <div class="property-content">
+                            <h3 class="property-title">
+                                <a href="{% url 'listings:listing' listing.id %}">{{ listing.title }}</a>
+                            </h3>
+                            
+                            <div class="property-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                {{ listing.district }}
+                            </div>
+
+                            <!-- Property Features -->
+                            <div class="property-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-bed"></i>
+                                    </div>
+                                    <div class="feature-label">Rooms</div>
+                                    <div class="feature-value">{{ listing.rooms }}</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-expand-arrows-alt"></i>
+                                    </div>
+                                    <div class="feature-label">Area</div>
+                                    <div class="feature-value">{{ listing.area|floatformat:0|intcomma }} sqft</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-history"></i>
+                                    </div>
+                                    <div class="feature-label">Age</div>
+                                    <div class="feature-value">{{ listing.age }} years</div>
+                                </div>
+                            </div>
+
+                            <!-- Property Footer -->
+                            <div class="property-footer">
+                                <div class="agent-info">
+                                    {% if listing.salesperson.photo %}
+                                    <img src="{{ listing.salesperson.photo.url }}" alt="{{ listing.salesperson.name }}" class="agent-avatar">
+                                    {% else %}
+                                    <div class="agent-avatar bg-orange-light text-white d-flex align-items-center justify-content-center">
+                                        {{ listing.salesperson.name|first }}
+                                    </div>
+                                    {% endif %}
+                                    <div>
+                                        <div class="agent-name">By {{ listing.salesperson.name }}</div>
+                                    </div>
+                                </div>
+                                <div class="property-date">
+                                    <i class="far fa-clock"></i>
+                                    {{ listing.list_date|timesince }} ago
+                                </div>
+                            </div>
+
+                            <!-- View Details Button -->
+                            <a href="{% url 'listings:listing' listing.id %}" class="btn-view">
+                                <i class="fas fa-eye mr-2"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- No Listings State -->
+                <div class="col-12">
+                    <div class="no-listings">
+                        <div class="no-listings-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h2 class="no-listings-title">No Properties Available</h2>
+                        <p class="no-listings-text">
+                            We're currently updating our property portfolio. 
+                            Check back soon for new listings or contact our team for personalized assistance.
+                        </p>
+                        <a href="{% url 'pages:index' %}" class="btn-explore">
+                            <i class="fas fa-arrow-left mr-2"></i> Return to Home
+                        </a>
+                    </div>
+                </div>
             {% endif %}
-          </div>
         </div>
-      </div>
-    </section>
 
+        <!-- Pagination -->
+        {% if listings.has_other_pages %}
+        <div class="custom-pagination">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if listings.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ listings.previous_page_number }}" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
 
+                    {% for i in listings.paginator.page_range %}
+                        {% if listings.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ i }}</a>
+                        </li>
+                        {% elif i > listings.number|add:"-3" and i < listings.number|add:"3" %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
 
-    
+                    {% if listings.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ listings.next_page_number }}" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe property cards
+        document.querySelectorAll('.property-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add hover effect to pagination
+        const pageLinks = document.querySelectorAll('.page-link');
+        pageLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                if (!this.parentElement.classList.contains('active') && 
+                    !this.parentElement.classList.contains('disabled')) {
+                    this.style.transform = 'translateY(-2px)';
+                }
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    });
+</script>
+
 {% endblock %}

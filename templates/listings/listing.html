@@ -1,239 +1,443 @@
-   {% extends 'base.html' %}
-   {% load static %}
-   {% load humanize %}
-   <!--block title-->
-   {% block title %} | {{listing.title | title}} {% endblock %}
-   {% block content %}
-   
-   
-    <section id="showcase-inner" class="py-5 text-white">
-      <div class="container">
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+<!--block title-->
+{% block title %} | {{listing.title | title}} {% endblock %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-orange: #FF6B35;
+        --orange-light: #FFA07A;
+        --orange-dark: #E55A2B;
+        --orange-bg-light: #FFF3E0;
+        --orange-bg: #FFE5CC;
+    }
+    
+    .bg-orange-gradient {
+        background: linear-gradient(135deg, var(--primary-orange), var(--orange-light));
+    }
+    
+    .btn-orange {
+        background-color: var(--primary-orange);
+        border-color: var(--primary-orange);
+        color: white;
+    }
+    
+    .btn-orange:hover {
+        background-color: var(--orange-dark);
+        border-color: var(--orange-dark);
+        color: white;
+    }
+    
+    .text-orange {
+        color: var(--primary-orange) !important;
+    }
+    
+    .border-orange {
+        border-color: var(--primary-orange) !important;
+    }
+    
+    .card-shadow {
+        box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+        transition: transform 0.3s ease;
+    }
+    
+    .card-shadow:hover {
+        transform: translateY(-5px);
+    }
+    
+    .img-main {
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        border: 3px solid white;
+    }
+    
+    .thumbs img {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .thumbs img:hover {
+        border: 2px solid var(--primary-orange);
+        transform: scale(1.05);
+    }
+    
+    .list-group-item {
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+    }
+    
+    .list-group-item:hover {
+        background-color: var(--orange-bg-light);
+        border-left: 3px solid var(--primary-orange);
+        padding-left: 20px;
+    }
+    
+    .list-group-item i {
+        color: var(--primary-orange);
+        margin-right: 10px;
+        width: 20px;
+    }
+    
+    .price-tag {
+        background: linear-gradient(135deg, var(--primary-orange), var(--orange-light));
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        display: inline-block;
+        font-weight: bold;
+    }
+    
+    .badge-orange {
+        background-color: var(--primary-orange);
+        color: white;
+    }
+    
+    .modal-header {
+        background: linear-gradient(135deg, var(--primary-orange), var(--orange-light));
+        color: white;
+    }
+    
+    .breadcrumb {
+        background-color: var(--orange-bg-light);
+        border-radius: 8px;
+        padding: 15px;
+    }
+    
+    .breadcrumb-item.active {
+        color: var(--primary-orange);
+        font-weight: bold;
+    }
+    
+    .map-container {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 3px solid var(--orange-bg);
+    }
+    
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--orange-bg);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+    }
+    
+    .feature-icon i {
+        color: var(--primary-orange);
+        font-size: 1.2rem;
+    }
+        .btn-outline-orange {
+        border-color: var(--primary-orange);
+        color: var(--primary-orange);
+    }
+    
+    .btn-outline-orange:hover {
+        background-color: var(--primary-orange);
+        color: white;
+    }
+    
+    .custom-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+        color: rgba(255, 255, 255, 0.7);
+    }
+</style>
+
+<!-- Hero Section -->
+<section id="showcase-inner" class="py-5 text-white bg-orange-gradient">
+    <div class="container">
         <div class="row text-center">
-          <div class="col-md-12">
-            <h1 class="display-4">{{listing.title | title}}</h1>
-            <p class="lead">
-              <i class="fas fa-map-marker"></i> {{listing.district | title}}
-            </p>
-          </div>
+            <div class="col-md-12">
+                <nav aria-label="breadcrumb" class="custom-breadcrumb mb-4">
+                    <ol class="breadcrumb justify-content-center bg-transparent">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'pages:index' %}" class="text-white"><i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'listings:index' %}" class="text-white">Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active text-white">{{listing.title | title}}</li>
+                    </ol>
+                </nav>
+                
+                <h1 class="display-4 font-weight-bold">{{listing.title | title}}</h1>
+                <p class="lead">
+                    <i class="fas fa-map-marker-alt"></i> {{listing.district | title}}
+                </p>
+                
+                <div class="mt-3">
+                    <span class="price-tag">
+                        <i class="fas fa-tag"></i> HKD {{listing.price|floatformat:0|intcomma}}
+                    </span>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Breadcrumb -->
-    <section id="bc" class="mt-3">
-      <div class="container">
-        <nav>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="{% url 'pages:index' %}">Home</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="{% url 'listings:index' %}">Listings</a>
-            </li>
-            <li class="breadcrumb-item active">{{listing.title | title}}</li>
-          </ol>
-        </nav>
-      </div>
-    </section>
-    {% include 'partials/_alert.html' %}
-        <!-- Listing -->
-<section id="listing" class="py-4">
-  <div class="container">
-    <a href="{% url 'listings:index' %}" class="btn btn-light mb-4">Back To Listings</a>
-
-    <div class="row">
-      <!-- Left side: main photo + thumbnails -->
-      <div class="col-md-9">
-        <!-- Home Main Image -->
-        <img
-          src="{{ listing.photo_main.url }}"
-          alt=""
-          class="img-main img-fluid mb-3"
-        />
-
-        <!-- Thumbnails -->
-        <div class="row mb-5 thumbs">
-          <div class="col-md-3">
-            {% if listing.photo_1 %}
-            <a href="{{ listing.photo_1.url }}" data-lightbox="home-images">
-              <img src="{{ listing.photo_1.url }}" alt="" class="img-fluid" />
-            </a>
-            {% endif %}
-          </div>
-          <div class="col-md-3">
-            {% if listing.photo_2 %}
-            <a href="{{ listing.photo_2.url }}" data-lightbox="home-images">
-              <img src="{{ listing.photo_2.url }}" alt="" class="img-fluid" />
-            </a>
-            {% endif %}
-          </div>
-          <div class="col-md-3">
-            {% if listing.photo_3 %}
-            <a href="{{ listing.photo_3.url }}" data-lightbox="home-images">
-              <img src="{{ listing.photo_3.url }}" alt="" class="img-fluid" />
-            </a>
-            {% endif %}
-          </div>
-          <div class="col-md-3">
-            {% if listing.photo_4 %}
-            <a href="{{ listing.photo_4.url }}" data-lightbox="home-images">
-              <img src="{{ listing.photo_4.url }}" alt="" class="img-fluid" />
-            </a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-
-      <!-- Right side: salesperson card -->
-      <div class="col-md-3">
-        <div class="card mb-3">
-          <img
-            class="card-img-top"
-            src="{{ listing.salesperson.photo.url }}"
-            alt="Salesperson"
-          />
-          <div class="card-body bg-light-warning text-center">
-            {% comment %} <h6 class="card-title"></h6> {% endcomment %}
-            <h6 class="text-black">Salesperson: {{ listing.salesperson.name }}</h6>
-          </div>
-        </div>
-
-        <button
-          class="fas fa-question-circle btn-warning text-danger btn-block btn-lg"
-          data-toggle="modal"
-          data-target="#inquiryModal"
-        >
-          Make An Inquiry
-        </button>
-      </div>
     </div>
+</section>
 
-    <!-- Fields + Map row -->
-     
-    <div class="row mb-5 fields">
-      <div class="col-md-8">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <i class="fas fa-home"></i> Estate Name:
-            <span class="float-right">{{ listing.title|title}}</span>
-          </li>
-          <li class="list-group-item">
-            <i class="fas fa-bath"></i> Price (HKD):
-            <span class="float-right">{{ listing.price|intword }}</span>
-          </li>
-          <li class="list-group-item">
-            <i class="fas fa-expand-arrows-alt"></i> Area:
-            <span class="float-right">{{ listing.area|floatformat:0|intcomma }} sqft</span>
-          </li>
-          <li class="list-group-item">
-            <i class="fas fa-bed"></i> Rooms:
-            <span class="float-right">{{ listing.rooms }}</span>
-          </li>
-          <li class="list-group-item">
-            <i class="fas fa-history"></i> Age:
-            <span class="float-right">{{ listing.age }} years</span>
-          </li>
-                    <li class="list-group-item">
-            <i class="fas fa-clock"></i> Since:
-            <span class="float-right">{{ listing.list_date| timesince }}</span>
-          </li>
-        </ul>
-      </div>
-   
+ {% include 'partials/_alert.html' %} 
 
-  <!-- Right side: map -->
-  <div class="col-md-4">
-    <div class="card shadow-lg mb-4">
-      <div class="card-header bg-light text-dark">
-        <i class="fas fa-map-marker-alt"></i> Location Map
-      </div>
-      <div class="card-body p-2">
-        <div class="map-container">
-          <iframe
-            src="https://www.google.com/maps?q={{ listing.title|urlencode }}&output=embed"
-            width="100%"
-            height="300"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy">
-          </iframe>
+<!-- Main Content -->
+<section id="listing" class="py-5">
+    <div class="container">
+        <!-- Back Button -->
+        <a href="{% url 'listings:index' %}" class="btn btn-orange mb-4">
+            <i class="fas fa-arrow-left"></i> Back To Listings
+        </a>
+
+        <div class="row">
+            <!-- Left Column: Images -->
+            <div class="col-lg-8">
+                <!-- Main Image -->
+                <div class="card card-shadow mb-4 border-0">
+                    <div class="card-body p-0">
+                        <img src="{{ listing.photo_main.url }}" alt="{{ listing.title }}" class="img-main img-fluid w-100">
+                    </div>
+                </div>
+
+                <!-- Thumbnails -->
+                <div class="row mb-4">
+                    {% if listing.photo_1 %}
+                    <div class="col-3">
+                        <div class="card border-0 card-shadow">
+                            <a href="{{ listing.photo_1.url }}" data-lightbox="home-images">
+                                <img src="{{ listing.photo_1.url }}" alt="" class="img-fluid rounded">
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if listing.photo_2 %}
+                    <div class="col-3">
+                        <div class="card border-0 card-shadow">
+                            <a href="{{ listing.photo_2.url }}" data-lightbox="home-images">
+                                <img src="{{ listing.photo_2.url }}" alt="" class="img-fluid rounded">
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if listing.photo_3 %}
+                    <div class="col-3">
+                        <div class="card border-0 card-shadow">
+                            <a href="{{ listing.photo_3.url }}" data-lightbox="home-images">
+                                <img src="{{ listing.photo_3.url }}" alt="" class="img-fluid rounded">
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if listing.photo_4 %}
+                    <div class="col-3">
+                        <div class="card border-0 card-shadow">
+                            <a href="{{ listing.photo_4.url }}" data-lightbox="home-images">
+                                <img src="{{ listing.photo_4.url }}" alt="" class="img-fluid rounded">
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Property Details -->
+                <div class="card card-shadow mb-4 border-orange">
+                    <div class="card-header bg-white border-orange">
+                        <h4 class="mb-0 text-orange"><i class="fas fa-info-circle"></i> Property Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-home"></i>
+                                        </div>
+                                        <div>
+                                            <strong>Estate Name</strong><br>
+                                            {{ listing.title|title }}
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-expand-arrows-alt"></i>
+                                        </div>
+                                        <div>
+                                            <strong>Area</strong><br>
+                                            {{ listing.area|floatformat:0|intcomma }} sqft
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-bed"></i>
+                                        </div>
+                                        <div>
+                                            <strong>Rooms</strong><br>
+                                            {{ listing.rooms }}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-history"></i>
+                                        </div>
+                                        <div>
+                                            <strong>Age</strong><br>
+                                            {{ listing.age }} years
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div>
+                                            <strong>Listed</strong><br>
+                                            {{ listing.list_date|timesince }} ago
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item d-flex align-items-center">
+                                        <div class="feature-icon">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </div>
+                                        <div>
+                                            <strong>District</strong><br>
+                                            {{ listing.district|title }}
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Agent & Map -->
+            <div class="col-lg-4">
+                <!-- Agent Card -->
+                <div class="card card-shadow border-orange mb-4">
+                    <div class="card-header bg-white border-orange">
+                        <h5 class="mb-0 text-orange"><i class="fas fa-user-tie"></i> Salesperson</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="{{ listing.salesperson.photo.url }}" 
+                             alt="{{ listing.salesperson.name }}" 
+                             class="rounded-circle img-fluid mb-3"
+                             style="width: 120px; height: 120px; object-fit: cover; border: 3px solid var(--primary-orange);">
+                        
+                        <h5 class="text-orange">{{ listing.salesperson.name }}</h5>
+                        <p class="text-muted mb-3">Certified Real Estate Agent</p>
+                        
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-orange btn-lg" data-toggle="modal" data-target="#inquiryModal">
+                                <i class="fas fa-comment-dots"></i> Make An Inquiry
+                            </button>
+                            <a href="tel:{{ listing.salesperson.phone }}" class="btn btn-outline-orange">
+                                <i class="fas fa-phone"></i> Call Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Map -->
+                <div class="card card-shadow border-orange">
+                    <div class="card-header bg-white border-orange">
+                        <h5 class="mb-0 text-orange"><i class="fas fa-map-marked-alt"></i> Location</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="map-container">
+                            <iframe
+                                src="https://www.google.com/maps?q={{ listing.title|urlencode }},{{ listing.district|urlencode }}&output=embed"
+                                width="100%"
+                                height="250"
+                                style="border:0;"
+                                allowfullscreen=""
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                        <div class="p-3">
+                            <p class="mb-1"><strong>Address:</strong></p>
+                            <p class="text-muted">{{ listing.title|title }}, {{ listing.district|title }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
-
 </section>
 
 <!-- Inquiry Modal -->
-<div class="modal fade" id="inquiryModal" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="inquiryModalLabel">Make An Inquiry</h5>
-        <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="{% url 'contacts:contact' %}">
-          {% csrf_token %}
-          <input type="hidden" name="listing_id" value="{{listing.id}}" />
-          <input type="hidden" name="salesperson_email" value="{{listing.salesperson.email}}"/>
-          {% if user.is_autenticated %}
-          <input type="hidden" name="user_id" value="{{user.id}}"/>
-          {% else %}
-          <input type="hidden" name="user_id" value="0" />
-          {% endif %}
-          <div class="form-group">
-            <label for="listing" class="col-form-label">Property:</label>
-            <input
-              type="text"
-              name="listing"
-              class="form-control"
-              value="{{listing.title | title}}"
-              readonly
-            />
-          </div>
+<div class="modal fade" id="inquiryModal" tabindex="-1" role="dialog" aria-labelledby="inquiryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="inquiryModalLabel">
+                    <i class="fas fa-envelope"></i> Make An Inquiry
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'contacts:contact' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="listing_id" value="{{listing.id}}" />
+                    <input type="hidden" name="salesperson_email" value="{{listing.salesperson.email}}"/>
+                    {% if user.is_authenticated %}
+                    <input type="hidden" name="user_id" value="{{user.id}}"/>
+                    {% else %}
+                    <input type="hidden" name="user_id" value="0" />
+                    {% endif %}
+                    
+                    <div class="form-group">
+                        <label for="listing" class="form-label">Property</label>
+                        <input type="text" name="listing" class="form-control" value="{{listing.title | title}}" readonly />
+                    </div>
 
-          <div class="form-group">
-            <label for="name" class="col-form-label">Name:</label>
-            <!-- prettier-ignore -->
-            <input
-              type="text"
-              name="name"
-              class="form-control"
-              {% if user.is_authenticated %}
-              value="{{user.first_name}} {{user.last_name}}"
-              readonly
-              {% endif %}
-            />
-          </div>
-          <div class="form-group">
-            <label for="email" class="col-form-label">Email:</label>
-            <input 
-              type="email" name="email" class="form-control"
-              {% if user.is_authenticated %} value="{{user.email}}" readonly {% endif %} />
-          </div>
-          <div class="form-group">
-            <label for="phone" class="col-form-label">Phone:</label>
-            <input type="text" name="phone" class="form-control" />
-          </div>
-          <div class="form-group">
-            <label for="message" class="col-form-label">Message:</label>
-            <textarea name="message" class="form-control"></textarea>
-          </div>
-          <hr />
-          <input
-            type="submit"
-            value="Send"
-            class="btn btn-block btn-warning"
-          />
-        </form>
-      </div>
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" 
+                            {% if user.is_authenticated %} 
+                            value="{{user.first_name}} {{user.last_name}}" readonly 
+                            {% endif %}
+                            required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" 
+                            {% if user.is_authenticated %} 
+                            value="{{user.email}}" readonly 
+                            {% endif %}
+                            required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="tel" name="phone" class="form-control" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea name="message" class="form-control" rows="4" 
+                            placeholder="I'm interested in this property..."></textarea>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-orange btn-lg">
+                            <i class="fas fa-paper-plane"></i> Send Inquiry
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-
 </div>
 
 

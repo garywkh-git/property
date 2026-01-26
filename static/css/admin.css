@@ -1,31 +1,131 @@
 #header {
     height: 50px;
-    background: #2d4363;
-    color : #fff;
+    background: #ff7b00;
+    color : #ffffff;
 }
+
 #branding h1 {
     color : #fff;
 }
 a:link, 
 a:visited {
 
-    color : #2d4363;
+    color : #ff6d00;
 }
 div.breadcrumbs {
     background : #ffe8a1;
-    color : #2d4363;
+    color : #ff6d00;
 }
 div.breadcrumbs a {
     color : #333;
 }
 .module h2, 
 .module caption, linlinegroup h2 {
-    background : #ffe8a1;
+    background : #faa032;
 }
 .button, input[type="submit"], input[type="button"], .submit-row input, a.button {
-    background : #2d4363;
+    background : #63432d;
     color : #333;
 }
 .brands {
+    display: flex;
     margin-left : 15px;
+    align-items: center; 
+    /* gap: 10px;   */
+}
+
+/* Target the admin submit row */
+.submit-row input.default {
+  background-color: #ff6600;   /* Orange for main Save */
+  color: #fff;
+  border: none;
+}
+
+.submit-row input.default:hover {
+  background-color: #e65c00;
+}
+
+/* Save and add another */
+.submit-row input[name="_addanother"] {
+  background-color: #ff9933;
+  color: #fff;
+  border: none;
+}
+
+.submit-row input[name="_addanother"]:hover {
+  background-color: #e68a2e;
+}
+
+/* Save and continue editing */
+.submit-row input[name="_continue"] {
+  background-color: #ffcc66;
+  color: #333;
+  border: none;
+}
+
+.submit-row input[name="_continue"]:hover {
+  background-color: #e6b85c;
+}
+
+/* Main Save button */
+.submit-row input.default {
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+}
+
+/* Save and add another */
+.submit-row input[name="_addanother"] {
+  background-color: #ff9933;
+  color: #fff;
+  border: none;
+}
+
+/* Save and continue editing */
+.submit-row input[name="_continue"] {
+  background-color: #ffcc66;
+  color: #333;
+  border: none;
+}
+
+.login .submit-row input[type=submit] {
+  background-color: #ff6600;
+  color: #fff;
+  border: none;
+}
+
+.theme-toggle {
+  background-color: #ff6600 
+  color: #fff !important;
+  border: none !important;
+}
+
+.theme-toggle:hover {
+  background-color: #e65c00 
+}
+
+/* Wrapper */
+.selector {
+  display: flex;
+  gap: 20px;
+}
+
+/* Available permissions box */
+.selector-available select {
+  border: 2px solid #ff6600;
+  border-radius: 6px;
+  background-color: #fff7f0;
+}
+
+/* Chosen permissions box */
+.selector-chosen select {
+  border: 2px solid #ff6600;
+  border-radius: 6px;
+  background-color: #ffe5cc;
+}
+
+/* Headings */
+.selector h2 {
+  color: #ff6600;
+  font-weight: 600;
 }

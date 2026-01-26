@@ -1,54 +1,382 @@
-{% extends 'base.html' %} 
-<!--block title-->
-   {% block title %} | Login {% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} | Login {% endblock %}
+
 {% block content %}
+<div class="container-fluid py-5 bg-light-orange">
+    <div class="row justify-content-center align-items-center min-vh-80">
+        <div class="col-xl-4 col-lg-5 col-md-6">
+            <!-- Login Card -->
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden login-card">
+                <!-- Orange Header -->
+                <div class="card-header bg-orange-gradient text-white py-4 border-0 position-relative">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 pattern-overlay"></div>
+                    <div class="text-center position-relative z-2">
+                        <!-- Animated User Icon -->
+                        <div class="user-icon mb-3">
+                            <div class="icon-circle">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                        </div>
+                        <h2 class="h3 mb-2 fw-bold">Welcome Back</h2>
+                        <p class="mb-0 opacity-90">Sign in to your account</p>
+                    </div>
+                </div>
 
+                <!-- Card Body -->
+                <div class="card-body p-4 p-md-5">
+                    <!-- Alerts -->
+                    {% if messages %}
+                    <div class="mb-4">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show border-0 shadow-sm" role="alert">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-{% if message.tags == 'success' %}check-circle{% else %}exclamation-triangle{% endif %} me-3 fa-lg"></i>
+                                <div class="flex-grow-1">
+                                    {{ message }}
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
+                    <!-- Login Form -->
+                    <form action="{% url 'accounts:login' %}" method="POST" class="login-form">
+                        {% csrf_token %}
+                        
+                        <!-- Username Field -->
+                        <div class="form-group mb-4">
+                            <div class="input-group input-group-lg border-0">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fas fa-user text-orange"></i>
+                                </span>
+                                <input type="text" 
+                                       name="username" 
+                                       class="form-control border-start-0 shadow-sm" 
+                                       id="username" 
+                                       placeholder="Enter your username"
+                                       required
+                                       style="height: 55px;">
+                            </div>
+                        </div>
 
-<section id="login" class="bg-light py-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 mx-auto">
-            {% include 'partials/_alert.html' %}
-            <div class="card">
-              <div class="card-header bg-primary text-white">
-                <h4><i class="fas fa-sign-in-alt"></i><strong>Login</strong></h4>
-              </div>
-              <div class="card-body">
-                <form action="{% url 'accounts:login' %}" method="POST">
-                  {% csrf_token %}
-                  <div class="form-group">
-                    <label for="username">Username</label>
-                    <input
-                        id="username"
-                      type="text"
-                      name="username"
-                      class="form-control"
-                      required
-                    />
-                  </div>
+                        <!-- Password Field -->
+                        <div class="form-group mb-4">
+                            <div class="input-group input-group-lg border-0">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fas fa-lock text-orange"></i>
+                                </span>
+                                <input type="password" 
+                                       name="password" 
+                                       class="form-control border-start-0 shadow-sm" 
+                                       id="password" 
+                                       placeholder="Enter your password"
+                                       required
+                                       style="height: 55px;">
+                                <span class="input-group-text bg-white border-start-0 password-toggle">
+                                    <i class="fas fa-eye text-orange" id="togglePassword"></i>
+                                </span>
+                            </div>
+                        </div>
 
-                  <div class="form-group">
-                    <label for="password2">Password</label>
-                    <input
-                        id="password"
-                      type="password"
-                      name="password"
-                      class="form-control"
-                      required
-                    />
-                  </div>
+                        <!-- Remember Me & Forgot Password -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rememberMe">
+                                <label class="form-check-label text-muted" for="rememberMe">
+                                    Remember me
+                                </label>
+                            </div>
+                            <a href="{% url 'accounts:password_reset' %}" class="text-orange text-decoration-none fw-medium">
+                                <i class="fas fa-key me-1"></i>Forgot Password?
+                            </a>
+                        </div>
 
-                  <input
-                    type="submit"
-                    value="Login"
-                    class="btn btn-warning btn-block"
-                  />
-                </form>
-              </div>
+                        <!-- Submit Button -->
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-orange-gradient btn-lg fw-bold py-3">
+                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                            </button>
+                        </div>
+
+                        <!-- Divider -->
+                        {% comment %} <div class="divider my-4">
+                            <span class="divider-text bg-white px-3 text-muted">or continue with</span>
+                        </div> {% endcomment %}
+
+                        <!-- Social Login (Optional) -->
+                        {% comment %} <div class="d-grid gap-3">
+                            <a href="#" class="btn btn-outline-orange btn-lg">
+                                <i class="fab fa-google me-2"></i>Continue with Google
+                            </a>
+                        </div> {% endcomment %}
+                    </form>
+
+                    <!-- Registration Link -->
+                    <div class="text-center mt-4 pt-3 border-top border-orange-light">
+                        <p class="mb-0 text-muted">
+                            Don't have an account? 
+                            <a href="{% url 'accounts:register' %}" class="text-orange fw-bold text-decoration-none ms-1">
+                                Sign up now
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <!-- Security Badge -->
+            <div class="text-center mt-4">
+                <div class="security-badge d-inline-flex align-items-center gap-3 px-4 py-2 rounded-pill shadow-sm">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-shield-alt text-orange"></i>
+                        <span class="small fw-medium">Secure Login</span>
+                    </div>
+                    <div class="vr"></div>
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-lock text-orange"></i>
+                        <span class="small fw-medium">Encrypted</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-{% endblock%}
+    </div>
+</div>
+
+<!-- Orange Theme Custom Styles -->
+<style>
+    /* Orange Color System */
+    :root {
+        --orange: #ff8c00;
+        --orange-light: #ffd8a8;
+        --orange-dark: #e67e00;
+        --orange-gradient: linear-gradient(135deg, #f97316 0%, #ff9b3eff 100%);
+        --orange-gradient-light: linear-gradient(135deg, #ffd8a8 0%, #ffc078 100%);
+        --orange-dark-gradient: linear-gradient(135deg, #e67e00 0%, #ff8c00 100%);
+    }
+    
+    /* Background */
+    .bg-light-orange {
+        background-color: #fff7f0ff !important;
+    }
+    
+    /* Orange Gradients */
+    .bg-orange-gradient {
+        background: var(--orange-gradient) !important;
+    }
+    
+    /* Text Colors */
+    .text-orange {
+        color: var(--orange) !important;
+    }
+    
+    /* Borders */
+    .border-orange-light {
+        border-color: var(--orange-light) !important;
+    }
+    
+    /* Pattern Overlay */
+    .pattern-overlay {
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+    
+    /* Animated User Icon */
+    .user-icon {
+        display: inline-block;
+    }
+    
+    .icon-circle {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 3px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    }
+    
+    .user-icon:hover .icon-circle {
+        transform: rotate(15deg) scale(1.1);
+    }
+    
+    /* Card Styling */
+    .login-card {
+        border: none;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    
+    .login-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .card-header {
+        border-radius: 0 !important;
+    }
+    
+    .rounded-4 {
+        border-radius: 1rem !important;
+    }
+    
+    /* Form Styling */
+    .input-group-text {
+        border-radius: 10px 0 0 10px !important;
+        border: 2px solid var(--orange-light) !important;
+        border-right: none !important;
+        padding: 0 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control {
+        border-radius: 0 10px 10px 0 !important;
+        border: 2px solid var(--orange-light) !important;
+        border-left: none !important;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: var(--orange) !important;
+        box-shadow: 0 0 0 0.25rem rgba(255, 140, 0, 0.25) !important;
+        border-left: none !important;
+    }
+    
+    .input-group-text.password-toggle {
+        cursor: pointer;
+        border-radius: 0 10px 10px 0 !important;
+        border-left: none !important;
+    }
+    
+    /* Password Toggle */
+    .password-toggle:hover {
+        background-color: var(--orange-light);
+    }
+    
+    /* Orange Buttons */
+    .btn-orange-gradient {
+        background: var(--orange-gradient);
+        border: none;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-orange-gradient:hover {
+        background: var(--orange-dark-gradient);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+    }
+    
+    .btn-orange-gradient:active {
+        transform: translateY(-1px);
+    }
+    
+    .btn-outline-orange {
+        border: 2px solid var(--orange);
+        color: var(--orange);
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-outline-orange:hover {
+        background: var(--orange-gradient);
+        border-color: var(--orange);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+    }
+    
+    /* Divider */
+    .divider {
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .divider::before,
+    .divider::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid var(--orange-light);
+    }
+    
+    .divider-text {
+        color: #6c757d;
+        font-size: 0.875rem;
+    }
+    
+    /* Security Badge */
+    .security-badge {
+        background: white;
+        border: 2px solid var(--orange-light);
+    }
+    
+    /* Form Check */
+    .form-check-input:checked {
+        background-color: var(--orange);
+        border-color: var(--orange);
+    }
+    
+    .form-check-input:focus {
+        border-color: var(--orange);
+        box-shadow: 0 0 0 0.25rem rgba(255, 140, 0, 0.25);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
+        }
+        
+        .card-body {
+            padding: 2rem 1.5rem !important;
+        }
+        
+        .btn-orange-gradient,
+        .btn-outline-orange {
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+    }
+</style>
+
+<!-- Password Toggle Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        
+        togglePassword.addEventListener('click', function() {
+            // Toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            
+            // Toggle the eye icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+        
+        // Add focus effects
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('.input-group-text').style.borderColor = 'var(--orange)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('.input-group-text').style.borderColor = 'var(--orange-light)';
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -44,8 +44,10 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.sites',
+    'import_export',
     'widget_tweaks',
-
+    
 ]
 
 APPLICATION_APPS = [
@@ -56,6 +58,7 @@ APPLICATION_APPS = [
                     'contacts.apps.ContactsConfig',
                     'mortgages.apps.MortgagesConfig',
                     'careers.apps.CareersConfig',
+                    'news.apps.NewsConfig',
                     ]
 
 
@@ -63,6 +66,8 @@ THIRD_PARTY_APPS = [ "debug_toolbar",'taggit']
 INSTALLED_APPS = DJANGO_APPS + APPLICATION_APPS + THIRD_PARTY_APPS
 
 
+
+SITE_ID = 1
 
 DJANGO_MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -179,3 +184,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASS')
+
+
+# Password reset settings
+LOGIN_URL = 'http://localhost:8000/accountslogin'
+#LOGIN_REDIRECT_URL = 'home'
+#LOGOUT_REDIRECT_URL = 'home'
+
+# Password reset timeout in seconds (default: 3 days)
+PASSWORD_RESET_TIMEOUT = 259200  # 3 days

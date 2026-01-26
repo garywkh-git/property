@@ -1,0 +1,486 @@
+{% load static %}
+<!-- Beautiful Orange Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="{% url 'pages:index' %}">
+            <div class="brand-container">
+                <img src="{% static 'img/logo.png' %}" class="logo-img" alt="UrbanNest Logo">
+                <span class="brand-name">UrbanNest</span>
+            </div>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <!-- Left Navigation -->
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if '/' == request.path %}active{% endif %}" href="{% url 'pages:index' %}">
+                        <i class="fas fa-home me-2"></i>
+                        <span>Home</span>
+                        {% if '/' == request.path %}<span class="nav-indicator"></span>{% endif %}
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {% if '/listings/' in request.path %}active{% endif %}" href="{% url 'listings:index' %}">
+                        <i class="fas fa-building me-2"></i>
+                        <span>Our Properties</span>
+                        {% if '/listings/' in request.path %}<span class="nav-indicator"></span>{% endif %}
+                    </a>
+                </li>
+
+                <!-- Services Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-concierge-bell me-2"></i>
+                        <span>Other Services</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                        <a class="dropdown-item" href="{% url 'mortgages:calculator' %}">
+                            <i class="fas fa-calculator me-2"></i>
+                            <span>Mortgage Calculator</span>
+                        </a>
+                        <a class="dropdown-item" href="{% url 'careers:list' %}">
+                            <i class="fas fa-briefcase me-2"></i>
+                            <span>Careers</span>
+                        </a>
+                        <a class="dropdown-item" href="{% url 'news_list' %}">
+                            <i class="fas fa-newspaper me-2"></i>
+                            <span>Property News</span>
+                        </a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {% if '/about' in request.path %}active{% endif %}" href="{% url 'pages:about' %}">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <span>About</span>
+                        {% if '/about' in request.path %}<span class="nav-indicator"></span>{% endif %}
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Right Navigation -->
+            <ul class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                <!-- User Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle user-dropdown" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                        <div class="user-avatar-nav">
+                            <div class="avatar-circle-nav">
+                                {{ user.username|first|upper }}
+                            </div>
+                            <div class="user-info-nav">
+                                <span class="username">{{ user.username|truncatechars:15 }}</span>
+                                <small class="user-status">Online</small>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="{% url 'accounts:dashboard' %}">
+                            <i class="fas fa-tachometer-alt me-2"></i>
+                            Dashboard
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-user-cog me-2"></i>
+                            Profile Settings
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form action="{% url 'accounts:logout' %}" method="POST" id="logoutForm">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item logout-btn">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </li>
+                {% else %}
+                <!-- Auth Buttons -->
+                <li class="nav-item">
+                    <a class="nav-link btn-register" href="{% url 'accounts:register' %}">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Register
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-login" href="{% url 'accounts:login' %}">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Login
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Active Border Bottom -->
+    <div class="nav-bottom-border"></div>
+</nav>
+
+<!-- Custom Styles -->
+<style>
+    /* Orange Color System */
+    :root {
+        --orange: #ff8c00;
+        --orange-light: #ffd8a8;
+        --orange-dark: #e67e00;
+        --orange-gradient: linear-gradient(135deg, #ff8c00 0%, #ffa94d 100%);
+        --orange-gradient-dark: linear-gradient(135deg, #e67e00 0%, #ff8c00 100%);
+        --nav-bg: rgba(255, 255, 255, 0.98);
+        --nav-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Navbar Base */
+    .navbar {
+        background: var(--nav-bg);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--nav-shadow);
+        padding: 0.8rem 0;
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+    }
+
+    .navbar.scrolled {
+        padding: 0.5rem 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Brand/Logo */
+    .brand-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .logo-img {
+        height: 40px;
+        width: auto;
+        transition: transform 0.3s ease;
+    }
+
+    .navbar-brand:hover .logo-img {
+        transform: rotate(-10deg) scale(1.1);
+    }
+
+    .brand-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: var(--orange-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
+    }
+
+    /* Navigation Links */
+    .nav-link {
+        color: #555 !important;
+        font-weight: 500;
+        padding: 0.8rem 1.2rem !important;
+        border-radius: 8px;
+        margin: 0 2px;
+        position: relative;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-link:hover {
+        color: var(--orange) !important;
+        background: rgba(255, 140, 0, 0.08);
+        transform: translateY(-1px);
+    }
+
+    .nav-link.active {
+        color: var(--orange-dark) !important;
+        background: rgba(255, 140, 0, 0.1);
+        font-weight: 600;
+    }
+
+    .nav-indicator {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 3px;
+        background: var(--orange-gradient);
+        border-radius: 3px;
+        animation: indicatorSlide 0.3s ease;
+    }
+
+    @keyframes indicatorSlide {
+        from {
+            width: 0;
+            opacity: 0;
+        }
+        to {
+            width: 20px;
+            opacity: 1;
+        }
+    }
+
+    /* Icons */
+    .nav-link i {
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover i {
+        transform: scale(1.1);
+    }
+
+    /* Dropdowns */
+    .dropdown-menu {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+        padding: 0.5rem;
+        margin-top: 10px;
+        animation: dropdownSlide 0.3s ease;
+    }
+
+    @keyframes dropdownSlide {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dropdown-item {
+        padding: 0.8rem 1.2rem;
+        border-radius: 8px;
+        margin: 2px 0;
+        display: flex;
+        align-items: center;
+        color: #555;
+        transition: all 0.2s ease;
+    }
+
+    .dropdown-item:hover {
+        background: rgba(255, 140, 0, 0.1);
+        color: var(--orange-dark);
+        transform: translateX(5px);
+    }
+
+    .dropdown-item i {
+        width: 20px;
+        text-align: center;
+        color: var(--orange);
+    }
+
+    /* User Dropdown */
+    .user-dropdown {
+        padding: 0.5rem 0.8rem !important;
+        border-radius: 50px;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .user-dropdown:hover {
+        border-color: rgba(255, 140, 0, 0.3);
+    }
+
+    .user-avatar-nav {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .avatar-circle-nav {
+        width: 40px;
+        height: 40px;
+        background: var(--orange-gradient);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+    }
+
+    .user-info-nav {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .username {
+        font-weight: 600;
+        color: #333;
+        font-size: 0.95rem;
+    }
+
+    .user-status {
+        font-size: 0.75rem;
+        color: #4CAF50;
+        font-weight: 500;
+    }
+
+    /* Auth Buttons */
+    .btn-register {
+        background: var(--orange-gradient);
+        color: white !important;
+        border-radius: 25px;
+        padding: 0.6rem 1.5rem !important;
+        margin-right: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+    }
+
+    .btn-register:hover {
+        background: var(--orange-gradient-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+    }
+
+    .btn-login {
+        border: 2px solid var(--orange);
+        color: var(--orange) !important;
+        border-radius: 25px;
+        padding: 0.6rem 1.5rem !important;
+        transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+        background: var(--orange);
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 140, 0, 0.2);
+    }
+
+    /* Logout Button */
+    .logout-btn {
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .logout-btn:hover {
+        color: #dc3545;
+    }
+
+    /* Nav Bottom Border */
+    .nav-bottom-border {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--orange-gradient);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .navbar:hover .nav-bottom-border {
+        transform: scaleX(1);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 992px) {
+        .navbar-collapse {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-link {
+            margin: 5px 0;
+            padding: 0.8rem 1rem !important;
+        }
+
+        .user-avatar-nav {
+            justify-content: center;
+        }
+
+        .btn-register, .btn-login {
+            width: 100%;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: none;
+            background: rgba(255, 140, 0, 0.05);
+            margin-top: 0;
+        }
+    }
+
+    /* Toggle Button */
+    .navbar-toggler {
+        border: 2px solid var(--orange-light);
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 140, 0, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* Scroll Effect */
+    .navbar.scrolled {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbar = document.querySelector('.navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        // Add scroll effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth hover effects
+        navLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Mobile menu close on click
+        const mobileLinks = document.querySelectorAll('.navbar-collapse .nav-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                    bsCollapse.hide();
+                }
+            });
+        });
+    });
+</script>

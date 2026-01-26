@@ -27,8 +27,8 @@ def contact(request):
                           name=name, email=email, phone=phone, message=message, user_id=user_id)
                               
         contact.save()
-        print("TEST",salesperson_email)
-        print("TEST2",listing)
+        # print("TEST",salesperson_email)
+        # print("TEST2",listing)
         #========SEND EMAIL ==========
         send_mail(
             'Property Inquiry',

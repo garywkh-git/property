@@ -18,7 +18,7 @@ def career_list(request):
     jobs = Job.objects.filter(published=True).order_by('-posted_date')
 
     # Create paginator: 5 jobs per page
-    paginator = Paginator(jobs, 5)
+    paginator = Paginator(jobs, 6)
 
     # Get current page number from query string (?page=2)
     page_number = request.GET.get('page')

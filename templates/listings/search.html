@@ -2,254 +2,733 @@
 {% load humanize %}
 <!--about title-->
 {% block title %} | Search{% endblock %} 
-
 {% load static %} 
 
-
-
 {% block content %}
+<style>
+    :root {
+        --primary-orange: #FF6B35;
+        --orange-light: #FFA07A;
+        --orange-dark: #E55A2B;
+        --orange-bg-light: #FFF3E0;
+        --orange-gradient: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%);
+        --orange-gradient-light: linear-gradient(135deg, #FF8E53 0%, #FFB07A 100%);
+        --shadow-sm: 0 2px 4px rgba(255, 107, 53, 0.1);
+        --shadow-md: 0 4px 12px rgba(255, 107, 53, 0.15);
+        --shadow-lg: 0 10px 25px rgba(255, 107, 53, 0.2);
+    }
+
+    /* Base Styles */
+    body {
+        background-color: #f9f9f9;
+    }
+
+    .btn-orange {
+        background: var(--orange-gradient);
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 12px 24px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-sm);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-orange:hover {
+        background: var(--orange-gradient-light);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+        color: white;
+    }
+
+    .btn-orange:active {
+        transform: translateY(-1px);
+    }
+
+    .btn-outline-orange {
+        border: 2px solid var(--primary-orange);
+        color: var(--primary-orange);
+        background: transparent;
+        transition: all 0.3s ease;
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 10px 20px;
+    }
+
+    .btn-outline-orange:hover {
+        background: var(--primary-orange);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .text-orange {
+        color: var(--primary-orange) !important;
+    }
+
+    .bg-orange-light {
+        background-color: var(--orange-bg-light);
+    }
+
+    .border-orange {
+        border-color: var(--primary-orange) !important;
+    }
+
+    /* Hero Search Section */
+    .showcase-search {
+        background: linear-gradient(rgba(253, 237, 20, 0.9), rgba(253, 185, 148, 0.9)),
+                    url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+        padding: 80px 0;
+        position: relative;
+        border-radius: 0 0 30px 30px;
+        margin-bottom: 40px;
+    }
+
+    .showcase-search::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(252, 207, 127, 0.9), rgba(255, 142, 83, 0.7));
+        z-index: 1;
+    }
+
+    .showcase-search .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .search-container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .search-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .search-header h1 {
+        color: white;
+        font-size: 2.8rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+
+    .search-header p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Form Styles */
+    .form-control {
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        height: auto;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-orange);
+        box-shadow: 0 0 0 0.3rem rgba(255, 107, 53, 0.25);
+        transform: translateY(-2px);
+    }
+
+    .form-row {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        color: var(--orange-dark);
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 0.95rem;
+    }
+
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23FF6B35' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+        padding-right: 40px;
+    }
+
+    /* Listing Cards */
+    .card-listing {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: var(--shadow-sm);
+        background: white;
+        height: 100%;
+    }
+
+    .card-listing:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .card-listing .card-img-top {
+        height: 250px;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .card-listing:hover .card-img-top {
+        transform: scale(1.08);
+    }
+
+    .price-tag {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: var(--orange-gradient);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: var(--shadow-md);
+        z-index: 2;
+    }
+
+    .feature-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 14px;
+        background: var(--orange-bg-light);
+        color: var(--orange-dark);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin: 3px;
+        border: 1px solid rgba(255, 107, 53, 0.1);
+    }
+
+    .feature-badge i {
+        margin-right: 6px;
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        position: relative;
+        padding-bottom: 20px;
+        margin-bottom: 40px;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #333;
+        text-align: center;
+    }
+
+    .section-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 5px;
+        background: var(--orange-gradient);
+        border-radius: 3px;
+    }
+
+    .listing-status {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 6px 18px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        background: white;
+        color: var(--primary-orange);
+        box-shadow: var(--shadow-sm);
+        z-index: 2;
+    }
+
+    .card-body {
+        padding: 25px;
+    }
+
+    .card-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #333;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+
+    .card-title a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .card-title a:hover {
+        color: var(--primary-orange);
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        background: transparent;
+        padding: 20px 0;
+        margin-bottom: 0;
+    }
+
+    .breadcrumb-item a {
+        color: var(--primary-orange);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .breadcrumb-item a:hover {
+        color: var(--orange-dark);
+        text-decoration: underline;
+    }
+
+    .breadcrumb-item.active {
+        color: #666;
+        font-weight: 500;
+    }
+
+    /* Empty State */
+    .empty-state {
+        padding: 80px 0;
+        text-align: center;
+    }
+
+    .empty-state i {
+        font-size: 5rem;
+        color: var(--primary-orange);
+        opacity: 0.3;
+        margin-bottom: 30px;
+    }
+
+    .empty-state h3 {
+        color: #666;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+
+    .empty-state p {
+        color: #888;
+        font-size: 1.1rem;
+        max-width: 500px;
+        margin: 0 auto 30px;
+        line-height: 1.6;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .showcase-search {
+            padding: 50px 0;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .search-header h1 {
+            font-size: 2rem;
+        }
+        
+        .search-container {
+            padding: 25px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+        }
+        
+        .card-listing .card-img-top {
+            height: 200px;
+        }
+    }
+
+/* Pagination */
+    .custom-pagination {
+        margin-top: 60px;
+    }
+
+    .pagination {
+        justify-content: center;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: var(--shadow-card);
+    }
+
+    .page-item {
+        margin: 0 2px;
+    }
+
+    .page-item:first-child .page-link {
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .page-item:last-child .page-link {
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .page-link {
+        border: none;
+        background: white;
+        color: var(--primary-orange);
+        padding: 12px 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .page-link:hover {
+        background: var(--orange-lighter);
+        color: var(--orange-dark);
+    }
+
+    .page-item.active .page-link {
+        background: var(--orange-gradient);
+        color: white;
+        border: none;
+    }
+
+    .page-item.disabled .page-link {
+        background: #f8f9fa;
+        color: #ccc;
+    }
 
 
-<section id="showcase-inner" class="showcase-search text-white py-5">
-  <div class="container">
-    <div class="row text-center">
-      <div class="col-md-12">
- <div class="search">
-        <form action="{% url 'listings:search' %}" method="GET">
-  <!-- Keywords -->
-  <div class="form-row">
-    <div class="col-md-12 mb-3">
-      <input
-        type="text"
-        name="keywords"
-        class="form-control"
-        placeholder="Keyword (Property, Salesperson, etc)"
-        value="{{ values.keywords }}"
-      />
-    </div>
-  </div>
+    /* Animation for form focus */
+    @keyframes pulse-orange {
+        0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); }
+        70% { box-shadow: 0 0 0 10px rgba(255, 107, 53, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+    }
 
-  <!-- District + Rooms -->
-  <div class="form-row">
-    <div class="col-md-4 mb-3">
-      <select name="district" class="form-control">
-        <option value="" {% if not values.district %} selected {% endif %}>District (All)</option>
-        {% for key,value in district_choices.items %}
-        <option value="{{ key }}" {% if values.district == key %} selected {% endif %}>{{ value }}</option>
-        {% endfor %}
-      </select>
-    </div>
+    .form-control:focus {
+        animation: pulse-orange 1.5s infinite;
+    }
+</style>
 
-
-        <div class="col-md-4 mb-3">
-            <select name="rooms_range" class="form-control">
-                <option value="" {% if not values.rooms_range %} selected {% endif %}>Rooms (All)</option>
-                    {% for key,value in rooms_choices.items %}
-                    <option value="{{ key }}" {% if values.rooms_range == key %} selected {% endif %}>{{ value }}</option>
-                    {% endfor %}
-            </select>
+<!-- Hero Search Section -->
+<section class="showcase-search">
+    <div class="container">
+        <div class="search-header">
+            <h1>Find Your Dream Property</h1>
+            <p>Search through our exclusive collection of premium properties with advanced filters</p>
         </div>
+        
+        <div class="search-container">
+            <form action="{% url 'listings:search' %}" method="GET">
+                <!-- Keywords -->
+                <div class="form-row">
+                    <label class="form-label">What are you looking for?</label>
+                    <div class="col-12 mb-3">
+                        <input
+                            type="text"
+                            name="keywords"
+                            class="form-control"
+                            placeholder="Enter keywords (Property, Location, Features, etc.)"
+                            value="{{ values.keywords }}"
+                        />
+                    </div>
+                </div>
 
-    <!-- Price range -->
-<div class="col-md-4 mb-3">
-  
+                <!-- District + Rooms + Price -->
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">District</label>
+                        <select name="district" class="form-control">
+                            <option value="" {% if not values.district %} selected {% endif %}>All Districts</option>
+                            {% for key,value in district_choices.items %}
+                            <option value="{{ key }}" {% if values.district == key %} selected {% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-  <select name="price_range" class="form-control">
-    <option value="" {% if not values.price_range %} selected {% endif %}>Price Range (All)</option>
-    {% for key, value in price_choices.items %}
-    <option value="{{ key }}" {% if values.price_range == key %} selected {% endif %}>{{ value }}</option>
-    {% endfor %}
-  </select>
-</div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Rooms</label>
+                        <select name="rooms_range" class="form-control">
+                            <option value="" {% if not values.rooms_range %} selected {% endif %}>Any Number of Rooms</option>
+                            {% for key,value in rooms_choices.items %}
+                            <option value="{{ key }}" {% if values.rooms_range == key %} selected {% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Price Range</label>
+                        <select name="price_range" class="form-control">
+                            <option value="" {% if not values.price_range %} selected {% endif %}>Any Price</option>
+                            {% for key, value in price_choices.items %}
+                            <option value="{{ key }}" {% if values.price_range == key %} selected {% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
 
+                <!-- Area + Age + Status -->
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Area (sqft)</label>
+                        <select name="area_range" class="form-control">
+                            <option value="" {% if not values.area_range %} selected {% endif %}>Any Area</option>
+                            {% for key, value in area_choices.items %}
+                            <option value="{{ key }}" {% if values.area_range == key %} selected {% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-  </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Property Age</label>
+                        <select id="property_age_range" name="property_age_range" class="form-control">
+                            <option value="" {% if not values.property_age_range %} selected {% endif %}>Any Age</option>
+                            {% for key, value in property_age_choices.items %}
+                            <option value="{{ key }}" {% if values.property_age_range == key %} selected {% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-  <!-- Area + Age + Status -->
-  <div class="form-row">
- 
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-control">
+                            <option value="" {% if not values.status %} selected {% endif %}>Any Status</option>
+                            {% for key,value in status_choices.items %}
+                            <option value="{{ key }}" {% if values.status == key %} selected {% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
 
-    <!-- Area -->
-  <div class="col-md-4 mb-3">
-
-    <select name="area_range" class="form-control">
-  <option value="" {% if not values.area_range %} selected {% endif %}>
-    Area (All)
-  </option>
-  {% for key, value in area_choices.items %}
-    <option value="{{ key }}" {% if values.area_range == key %} selected {% endif %}>
-      {{ value }}
-    </option>
-  {% endfor %}
-</select>
-    
-  </div>
-  <!-- Property Age -->
-<div class="col-md-4 mb-3">
-    
-  <select id="property_age_range" name="property_age_range" class="form-control">
-    <option value="" {% if not values.property_age_range %} selected {% endif %}>
-      Property Age (All)
-    </option>
-    {% for key, value in property_age_choices.items %}
-      <option value="{{ key }}" {% if values.property_age_range == key %} selected {% endif %}>
-        {{ value }}
-      </option>
-    {% endfor %}
-  </select>
-
-</div>
-    <!-- Status -->
-    <div class="col-md-4 mb-3">
-      <select name="status" class="form-control">
-        <option value="" {% if not values.status %} selected {% endif %}>Status (All)</option>
-        {% for key,value in status_choices.items %}
-        <option value="{{ key }}" {% if values.status == key %} selected {% endif %}>{{ value }}</option>
-        {% endfor %}
-      </select>
+                <!-- Submit Button -->
+                <div class="form-row">
+                    <div class="col-12">
+                        <button class="btn-orange btn-block" type="submit">
+                            <i class="fas fa-search mr-2"></i> Search Properties
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-
-  <!-- Submit button -->
-  <div class="form-row">
-    <div class="col-md-12">
-      <button class="btn btn-warning btn-block mt-4" type="submit">Search</button>
-    </div>
-  </div>
-</form>
-</div>
-      </div>
-    </div>
-  </div>
 </section>
 
-    <!-- Breadcrumb -->
-    <section id="bc" class="mt-3">
-      <div class="container">
+<!-- Breadcrumb -->
+<section id="bc">
+    <div class="container">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href={% url 'pages:index' %}> <i class="fas fa-home"></i> Home</a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href={% url 'listings:index' %} >Browse Listings</a>
-            </li>
-            <li class="breadcrumb-item active">Search Results</li>
-          </ol>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'pages:index' %}"><i class="fas fa-home text-orange"></i> Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'listings:index' %}">Browse Listings</a>
+                </li>
+                <li class="breadcrumb-item active">Search Results</li>
+            </ol>
         </nav>
-      </div>
-    </section>
+    </div>
+</section>
 
- <!-- Listings -->
-    <section id="listings" class="py-4">
-      <div class="container">
+<!-- Featured Listings -->
+<section id="listings" class="py-5">
+    <div class="container">
+        <h2 class="section-title">Search Results</h2>
+        
+        {% if listings %}
         <div class="row">
-          <!-- Listing 1 -->
-          {% if listings %}
-          {% for listing in listings %}
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card listing-preview bg-light-warning">
-              <img
-                class="card-img-top"
-                src="{{ listing.photo_main.url }}"
-                alt=""
-              />
-              <div class="card-img-overlay">
-              </div>
-              <div class="card-body">
-                <div class="listing-heading text-center">
-                  <h4 class="text-primary">{{listing.title}}</h4>
-                  <p>
-                    <i class="fas fa-map-marker"> </i> District : {{listing.district}}
-                  </p>
+            {% for listing in listings %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card-listing">
+                    <div class="position-relative overflow-hidden">
+                        <img class="card-img-top" src="{{ listing.photo_main.url }}" alt="{{ listing.title }}">
+                        <div class="price-tag">HKD {{ listing.price|floatformat:0|intcomma }}</div>
+                        {% if listing.status %}
+                        <div class="listing-status">{{ listing.get_status_display }}</div>
+                        {% endif %}
+                        <div class="card-img-overlay d-flex align-items-end">
+                            <div class="w-100">
+                                {% if listing.district %}
+                                <span class="feature-badge">
+                                    <i class="fas fa-map-marker-alt"></i> {{ listing.get_district_display }}
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'listings:listing' listing.id %}">
+                                {{ listing.title|truncatechars:50 }}
+                            </a>
+                        </h5>
+                        
+                        <div class="d-flex flex-wrap mb-4">
+                            <span class="feature-badge">
+                                <i class="fas fa-bed"></i> {{ listing.rooms }} Room{{ listing.rooms|pluralize }}
+                            </span>
+                            <span class="feature-badge">
+                                <i class="fas fa-expand-arrows-alt"></i> {{ listing.area|floatformat:0|intcomma }} sqft
+                            </span>
+                            <span class="feature-badge">
+                                <i class="fas fa-history"></i> {{ listing.age }} year{{ listing.age|pluralize }}
+                            </span>
+                        </div>
+                        
+                        <p class="text-muted mb-4" style="font-size: 0.95rem; line-height: 1.5;">
+                            {{ listing.description|truncatechars:100 }}
+                        </p>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <small class="text-muted">
+                                    <i class="fas fa-user-tie text-orange"></i> {{ listing.salesperson.name }}
+                                </small>
+                            </div>
+                            <div>
+                                <small class="text-muted">
+                                    <i class="far fa-clock text-orange"></i> {{ listing.list_date|timesince }} ago
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <a href="{% url 'listings:listing' listing.id %}" class="btn-orange d-block text-center py-2">
+                            <i class="fas fa-eye mr-2"></i> View Details
+                        </a>
+                    </div>
                 </div>
-                <hr />
-                <div class="row py-2">
-                  <div class="col-6">
-                    <i class="fas fa-dollar-sign"></i>{{listing.price | intword}}
-                  </div> 
-                  <div class="col-6">
-                    <i class="fas fa-history"></i> Age: {{listing.age }} years
-                  </div>
-                </div>
-                <div class="row py-2">
-                  <div class="col-6">
-                    <i class="fas fa-bed"></i>  Rooms {{listing.rooms }}
-                  </div>
-                  <div class="col-6">
-                    <i class="fas fa-expand-arrows-alt"></i> Area : {{listing.area|floatformat:0|intcomma }} sqft 
-                  </div>
-                </div>
-                <hr />
-                <div class="row py-2">
-                  <div class="col-12"><i class="fas fa-user"></i> Salesperson : {{listing.salesperson.name}}</div>
-                </div>
-                <div class="row pb-2">
-                  <div class="col-12">
-                    <i class="fas fa-clock"></i> {{listing.list_date | timesince}}
-                  </div>
-                </div>
-                <hr />
-                {% comment %} html {% endcomment %}
-                <a href={% url 'listings:listing' listing.id %} class="btn btn-warning btn-block"
-                  >More Info</a
-                >
-              </div>
             </div>
-          </div>
-          {% endfor %}
-          {% else %}
-          <div class ="col-md-12">
-            <p> No Property Available</p>
-          </div>
-          {% endif %}
+            {% endfor %}
         </div>
+        
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <h3>No Properties Found</h3>
+            <p>We couldn't find any properties matching your search criteria. Try adjusting your filters or browse all available properties.</p>
+            <a href="{% url 'listings:index' %}" class="btn-outline-orange btn-lg">
+                <i class="fas fa-list mr-2"></i> Browse All Properties
+            </a>
+        </div>
+        {% endif %}
+        
+        {% if listings %}
+        <div class="text-center mt-5">
+            <a href="{% url 'listings:index' %}" class="btn-outline-orange btn-lg">
+                <i class="fas fa-list mr-2"></i> View All Properties
+            </a>
+        </div>
+        {% endif %}
+    </div>
 
-        <div class="row">
-          <div class="col-md-12">
-            {% if listings.has_other_pages %}
-            <ul class="pagination">
-              {% if listings.has_previous %}
-              <li class="page-item">
-                <a 
-                  class="page-link" href="?page={{ listings.previous_page_number }}"
-                  >&laquo;</a>
-              </li> 
-              {% else %}
-              
-              <li class="page-item disabled">
-                <a class="page-link" href="#">&laquo;</a>
-              </li>
-              {% endif %}
-              {% for i in listings.paginator.page_range %}
-              {% if listings.number == i %}
-              <li class="page-item active">
-                <a class="page-link"> {{ i }}</a>
-              </li>
-              {% else %}
-              <li class="page-item">
-                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
-              </li>
-              {% endif %}
-              {% endfor%}
-              {% if listings.has_next %}
-              <li class="page-item">
-                <a 
-                  class="page-link" href="?page={{ listings.next_page_number }}"
-                  >&raquo;</a>
-              </li> 
-              {% else %}
-              
-              <li class="page-item disabled">
-                <a class="page-link" href="#">&raquo;</a>
-              </li>
-              {% endif %}
-            </ul>
-            {% endif %}
-          </div>
+
+        <!-- Pagination -->
+        {% if listings.has_other_pages %}
+        <div class="custom-pagination">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if listings.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ listings.previous_page_number }}" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for i in listings.paginator.page_range %}
+                        {% if listings.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ i }}</a>
+                        </li>
+                        {% elif i > listings.number|add:"-3" and i < listings.number|add:"3" %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if listings.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ listings.next_page_number }}" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
-      </div>
-    </section>
+        {% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe property cards
+        document.querySelectorAll('.property-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add hover effect to pagination
+        const pageLinks = document.querySelectorAll('.page-link');
+        pageLinks.forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                if (!this.parentElement.classList.contains('active') && 
+                    !this.parentElement.classList.contains('disabled')) {
+                    this.style.transform = 'translateY(-2px)';
+                }
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    });
+</script>
+
+</section>
 
 {% endblock %}
